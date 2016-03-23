@@ -20,5 +20,17 @@ from project_app import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index/', views.index),
+    url(r'^login/', views.login),
+    url(r'^register/',views.register),
+    url(r'^add_property/', views.add_property),
+    url(r'^mypoints/', views.mypoints),
+    url(r'^my_properties/', views.my_properties),
+    url(r'^my_notifiers/', views.my_notifiers),
+    url(r'^setting/', views.setting),
+    url(r'^search/', views.search),
+    url(r'^luxury/', views.luxury),
+
+    
+
 ]
 

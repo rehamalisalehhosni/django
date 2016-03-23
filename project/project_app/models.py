@@ -8,7 +8,8 @@ class Users (User):
 	#email=models.EmailField()
 	#password=models.IntegerField(max_length=32)
 	user = models.OneToOneField(User)
-	signup=models.DateField()
+	points=models.IntegerField()
+	token=models.CharField(max_length=255)
 	
 class Categories (models.Model):
 	category_name=models.CharField(max_length=255)
@@ -33,4 +34,7 @@ class Property (models.Model):
 	details=models.TextField()
 	longtiude=models.FloatField()
 	Latitude=models.FloatField()
-
+class Comments (models.Model):
+	coun_id=models.ForeignKey(Users)
+	coun_id=models.ForeignKey(Property)
+	comment=models.TextField()
