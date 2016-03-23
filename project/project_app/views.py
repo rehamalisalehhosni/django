@@ -9,29 +9,34 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.template import *
 
 def index(request):
-	if not request.user.is_authenticated():
+	#request=__getitem__("user_session")
+	#if  request.user.is_authenticated():
+	if "active" in request.session and request.session['active']==1:
 		return render(request,'home.html',{'msg':"success"})	
 	else:
-		return HttpResponse("You are not logged in.")
+		return render(request,'home.html',{'msg':"success"})	
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user:
-            if user.is_active:
-                login(request, user)                
-                return HttpResponseRedirect('/index/')
-            else:
-                # An inactive account was used - no logging in!
-                return HttpResponse("Your  account is disabled.")
+			if user.is_active:
+				login(request, user)
+				#__setitem__("user_session", request)	
+				request.session['user'] = user.username
+				request.session['active'] = 1
+				return HttpResponseRedirect('/index/')
+			else:
+				return HttpResponse("Your  account is disabled.")
         else:
             print "Invalid login details: {0}, {1}".format(username, password)
             return HttpResponse("Invalid login details supplied.")
     else:
-        return render(request, 'login.html', {})
+        return render(request, 'login.html')
 #	return render(request,'login.html',{'msg':"success"})	
 def register(request):
     registered = False
@@ -72,9 +77,11 @@ def luxury(request):
 @login_required
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
-    logout(request)
+	del request.session['user']
+	del request.session['active']
+	logout(request)
 
     # Take the user back to the homepage.
-    return HttpResponseRedirect('/index/')
+ 	return HttpResponseRedirect('/index/')
 #admin.site.unregister(User)
 #admin.site.register(User)
