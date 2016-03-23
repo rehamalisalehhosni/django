@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 22, 2016 at 03:10 PM
+-- Generation Time: Mar 23, 2016 at 01:41 PM
 -- Server version: 5.5.47-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.14
 
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$24000$qVGTiuwxHuuc$DuqodmBaUNLHYiDzop2kKWaQjHhYariWrHR+hONZJZE=', NULL, 1, 'admin', '', '', 'admin@gmail.com', 1, 1, '2016-03-22 13:05:29');
+(1, 'pbkdf2_sha256$24000$sBEQCjoKXkx1$DmHQdDuk3IUpn1cvatyGV+sJc88DhsKWFNKM6KyhFVI=', '2016-03-23 11:41:09', 1, 'admin', '', '', 'admin@gmail.com', 1, 1, '2016-03-23 11:40:17');
 
 -- --------------------------------------------------------
 
@@ -231,19 +231,19 @@ CREATE TABLE IF NOT EXISTS `django_migrations` (
 --
 
 INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
-(1, 'contenttypes', '0001_initial', '2016-03-22 12:58:01'),
-(2, 'auth', '0001_initial', '2016-03-22 12:58:05'),
-(3, 'admin', '0001_initial', '2016-03-22 12:58:05'),
-(4, 'admin', '0002_logentry_remove_auto_add', '2016-03-22 12:58:05'),
-(5, 'contenttypes', '0002_remove_content_type_name', '2016-03-22 12:58:06'),
-(6, 'auth', '0002_alter_permission_name_max_length', '2016-03-22 12:58:06'),
-(7, 'auth', '0003_alter_user_email_max_length', '2016-03-22 12:58:06'),
-(8, 'auth', '0004_alter_user_username_opts', '2016-03-22 12:58:06'),
-(9, 'auth', '0005_alter_user_last_login_null', '2016-03-22 12:58:07'),
-(10, 'auth', '0006_require_contenttypes_0002', '2016-03-22 12:58:07'),
-(11, 'auth', '0007_alter_validators_add_error_messages', '2016-03-22 12:58:07'),
-(12, 'sessions', '0001_initial', '2016-03-22 12:58:07'),
-(13, 'project_app', '0001_initial', '2016-03-22 13:08:41');
+(1, 'contenttypes', '0001_initial', '2016-03-23 03:16:14'),
+(2, 'auth', '0001_initial', '2016-03-23 03:16:17'),
+(3, 'admin', '0001_initial', '2016-03-23 03:16:18'),
+(4, 'admin', '0002_logentry_remove_auto_add', '2016-03-23 03:16:18'),
+(5, 'contenttypes', '0002_remove_content_type_name', '2016-03-23 03:16:18'),
+(6, 'auth', '0002_alter_permission_name_max_length', '2016-03-23 03:16:19'),
+(7, 'auth', '0003_alter_user_email_max_length', '2016-03-23 03:16:19'),
+(8, 'auth', '0004_alter_user_username_opts', '2016-03-23 03:16:19'),
+(9, 'auth', '0005_alter_user_last_login_null', '2016-03-23 03:16:19'),
+(10, 'auth', '0006_require_contenttypes_0002', '2016-03-23 03:16:19'),
+(11, 'auth', '0007_alter_validators_add_error_messages', '2016-03-23 03:16:19'),
+(12, 'project_app', '0001_initial', '2016-03-23 03:16:21'),
+(13, 'sessions', '0001_initial', '2016-03-23 03:16:22');
 
 -- --------------------------------------------------------
 
@@ -258,6 +258,13 @@ CREATE TABLE IF NOT EXISTS `django_session` (
   PRIMARY KEY (`session_key`),
   KEY `django_session_de54fa62` (`expire_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `django_session`
+--
+
+INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('6eent4dxv9q5l9bg8u12o8q649qb2vti', 'NDY5NTk3MjJlYjM4MzUwYjdjOWUxMjA4YjE1OGJjYTE0ZTQxNmI0Njp7Il9hdXRoX3VzZXJfaGFzaCI6IjRjNTZiMTk1NmYzYzE0YTY1M2Q5NTQzNjVkYjdkYWUxZTJiNDZiZWYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=', '2016-04-06 11:41:09');
 
 -- --------------------------------------------------------
 
@@ -332,9 +339,9 @@ CREATE TABLE IF NOT EXISTS `project_app_property` (
 --
 
 CREATE TABLE IF NOT EXISTS `project_app_users` (
-  `user_ptr_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `signup` date NOT NULL,
-  PRIMARY KEY (`user_ptr_id`)
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -345,8 +352,8 @@ CREATE TABLE IF NOT EXISTS `project_app_users` (
 -- Constraints for table `auth_group_permissions`
 --
 ALTER TABLE `auth_group_permissions`
-  ADD CONSTRAINT `auth_group_permissi_permission_id_84c5c92e_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  ADD CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`);
+  ADD CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  ADD CONSTRAINT `auth_group_permissi_permission_id_84c5c92e_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`);
 
 --
 -- Constraints for table `auth_permission`
@@ -365,8 +372,8 @@ ALTER TABLE `auth_user_groups`
 -- Constraints for table `auth_user_user_permissions`
 --
 ALTER TABLE `auth_user_user_permissions`
-  ADD CONSTRAINT `auth_user_user_perm_permission_id_1fbb5f2c_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  ADD CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+  ADD CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+  ADD CONSTRAINT `auth_user_user_perm_permission_id_1fbb5f2c_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`);
 
 --
 -- Constraints for table `django_admin_log`
@@ -385,15 +392,15 @@ ALTER TABLE `project_app_city`
 -- Constraints for table `project_app_property`
 --
 ALTER TABLE `project_app_property`
-  ADD CONSTRAINT `project_app_pro_uid_id_3e9b7116_fk_project_app_users_user_ptr_id` FOREIGN KEY (`uid_id`) REFERENCES `project_app_users` (`user_ptr_id`),
   ADD CONSTRAINT `project_app_property_city_id_id_af9c5ea8_fk_project_app_city_id` FOREIGN KEY (`city_id_id`) REFERENCES `project_app_city` (`id`),
+  ADD CONSTRAINT `project_app_propert_uid_id_3e9b7116_fk_project_app_users_user_id` FOREIGN KEY (`uid_id`) REFERENCES `project_app_users` (`user_id`),
   ADD CONSTRAINT `project_app_prop_cat_id_id_22e2e59c_fk_project_app_categories_id` FOREIGN KEY (`cat_id_id`) REFERENCES `project_app_categories` (`id`);
 
 --
 -- Constraints for table `project_app_users`
 --
 ALTER TABLE `project_app_users`
-  ADD CONSTRAINT `project_app_users_user_ptr_id_1266307d_fk_auth_user_id` FOREIGN KEY (`user_ptr_id`) REFERENCES `auth_user` (`id`);
+  ADD CONSTRAINT `project_app_users_user_id_e43bef6c_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

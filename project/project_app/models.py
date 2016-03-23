@@ -7,6 +7,7 @@ class Users (User):
 	#name=models.CharField(max_length=255)
 	#email=models.EmailField()
 	#password=models.IntegerField(max_length=32)
+	user = models.OneToOneField(User)
 	signup=models.DateField()
 	
 class Categories (models.Model):
