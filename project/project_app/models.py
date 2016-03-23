@@ -3,13 +3,19 @@ from django.contrib.auth.admin import User
 from django.db import models
 
 # Create your models here.
-class Users (User):
+class Users (models.Model):
 	#name=models.CharField(max_length=255)
 	#email=models.EmailField()
 	#password=models.IntegerField(max_length=32)
 	user = models.OneToOneField(User)
-	points=models.IntegerField()
-	token=models.CharField(max_length=255)
+	points=models.IntegerField(null=True)
+	age=models.IntegerField(null=True)
+	token=models.CharField(max_length=255,null=True)
+	picture = models.ImageField(upload_to='profile_images', blank=True)
+    # Override the __unicode__() method to return out something meaningful!
+	def __unicode__(self):
+		return self.user.username
+
 	
 class Categories (models.Model):
 	category_name=models.CharField(max_length=255)

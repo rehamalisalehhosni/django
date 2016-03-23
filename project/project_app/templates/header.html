@@ -17,9 +17,14 @@
                     <div class="logo pull-left"><img src="{% static 'img/logo.png' %}" width="150px;" /></div>
                     <ul class="list-inline pull-right menu">
                         <li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li>{{ user.username }}!</li>
+                        <li><a href="/logout/">Logout</a></li>
+                        {% else %}
+                        <li><a href="/register/">Register </a></li>
+                        <li><a href="/login/">Login</a></li>
+                        {% endif %}
                         <li><a href="#">Real Estate</a></li>
-                        <li><a href="#">Register</a></li>
-                        <li><a href="#">Login</a></li>
                         <li><a href="#">List your property</a></li>
                     </ul>
                     <p class="clearfix"></p>
