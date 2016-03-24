@@ -24,15 +24,18 @@ class Categories (models.Model):
 	category_name=models.CharField(max_length=255)
 	def __unicode__(self):
 		return self.category_name
+
 class Country (models.Model):
 	country_name=models.CharField(max_length=255)
 	def __unicode__(self):
 		return self.country_name
+
 class City (models.Model):
 	city_name=models.CharField(max_length=255)
 	coun_id=models.ForeignKey(Country)
 	def __unicode__(self):
 		return self.city_name
+
 class Property (models.Model):
 	prop_name=models.CharField(max_length=255)
 	uid=models.ForeignKey(Users);
@@ -48,6 +51,10 @@ class Property (models.Model):
 	details=models.TextField()
 	longtiude=models.FloatField()
 	Latitude=models.FloatField()
+class PropertyImage (models.Model):
+	pro_id=models.ForeignKey(Property)
+	image_name = models.ImageField(upload_to='property_images', blank=True)
+
 class Comments (models.Model):
 	coun_id=models.ForeignKey(Users)
 	coun_id=models.ForeignKey(Property)

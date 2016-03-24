@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 24, 2016 at 01:19 PM
+-- Generation Time: Mar 24, 2016 at 02:20 PM
 -- Server version: 5.5.47-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.14
 
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `auth_permission` (
   `codename` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_01ab375a_uniq` (`content_type_id`,`codename`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
 
 --
 -- Dumping data for table `auth_permission`
@@ -103,7 +103,10 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (33, 'Can delete property', 11, 'delete_property'),
 (34, 'Can add comments', 12, 'add_comments'),
 (35, 'Can change comments', 12, 'change_comments'),
-(36, 'Can delete comments', 12, 'delete_comments');
+(36, 'Can delete comments', 12, 'delete_comments'),
+(37, 'Can add property image', 13, 'add_propertyimage'),
+(38, 'Can change property image', 13, 'change_propertyimage'),
+(39, 'Can delete property image', 13, 'delete_propertyimage');
 
 -- --------------------------------------------------------
 
@@ -132,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$24000$u66WZB6tWkL4$iANeyJKeJc/bg0jTbVMPWL0Wzh6cXhgbzYDD6AMusUI=', NULL, 1, 'admin', '', '', 'admin@gmail.com', 1, 1, '2016-03-24 10:42:38'),
+(1, 'pbkdf2_sha256$24000$u66WZB6tWkL4$iANeyJKeJc/bg0jTbVMPWL0Wzh6cXhgbzYDD6AMusUI=', '2016-03-24 11:30:17', 1, 'admin', '', '', 'admin@gmail.com', 1, 1, '2016-03-24 10:42:38'),
 (2, 'pbkdf2_sha256$24000$RIJEibIaiyzk$DJOWTnKj2850CxCRFF8hzwgya6jxOC6UpT/nxK0HO0w=', '2016-03-24 11:19:06', 0, 'support', '', '', 'support@gmail.com', 0, 1, '2016-03-24 11:08:41');
 
 -- --------------------------------------------------------
@@ -197,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `django_content_type`
@@ -214,6 +217,7 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (12, 'project_app', 'comments'),
 (9, 'project_app', 'country'),
 (11, 'project_app', 'property'),
+(13, 'project_app', 'propertyimage'),
 (7, 'project_app', 'users'),
 (6, 'sessions', 'session');
 
@@ -229,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `django_migrations`
@@ -248,7 +252,8 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (10, 'auth', '0006_require_contenttypes_0002', '2016-03-24 10:35:07'),
 (11, 'auth', '0007_alter_validators_add_error_messages', '2016-03-24 10:35:07'),
 (12, 'project_app', '0001_initial', '2016-03-24 10:35:10'),
-(13, 'sessions', '0001_initial', '2016-03-24 10:35:10');
+(13, 'sessions', '0001_initial', '2016-03-24 10:35:10'),
+(14, 'project_app', '0002_auto_20160324_1219', '2016-03-24 12:19:49');
 
 -- --------------------------------------------------------
 
@@ -269,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('batz81se59ykhr89kbbs56gf88p6bx1u', 'ZmM0OTY2MmE0ODE5NDE0NjQxNWU4ZjU4ZGYxNzI3NDMxYjJmNDRkZDp7InVzZXJfaWQiOjIsIl9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJ1c2VyIjoic3VwcG9ydCIsImFjdGl2ZSI6MSwiX2F1dGhfdXNlcl9oYXNoIjoiNDFlNzNiN2QwZGEyNzI3NGJlYWFhZWM3NzViOGVlNmNjNzY3NzY3MSJ9', '2016-04-07 11:19:06');
+('6eea100byg1yvevd4kftokcqvts8lhjb', 'YTI5MDUwZTExYTVlMzM2YTY4N2YxMDQ4NmE2ZTdhNzY2ZDlkNDk0MDp7Il9hdXRoX3VzZXJfaGFzaCI6IjFlMTk2MTcxYjkwNmU2NGZlZjUwZGZkYWI3MDYyMmVlNDM3NWM0YjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=', '2016-04-07 11:30:17');
 
 -- --------------------------------------------------------
 
@@ -349,6 +354,20 @@ CREATE TABLE IF NOT EXISTS `project_app_property` (
   KEY `project_app_prop_cat_id_id_22e2e59c_fk_project_app_categories_id` (`cat_id_id`),
   KEY `project_app_property_city_id_id_af9c5ea8_fk_project_app_city_id` (`city_id_id`),
   KEY `project_app_property_71422c2d` (`uid_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_app_propertyimage`
+--
+
+CREATE TABLE IF NOT EXISTS `project_app_propertyimage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image_name` varchar(100) NOT NULL,
+  `pro_id_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `project_app_proper_pro_id_id_ecfdca25_fk_project_app_property_id` (`pro_id_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -434,6 +453,12 @@ ALTER TABLE `project_app_property`
   ADD CONSTRAINT `project_app_property_uid_id_3e9b7116_fk_project_app_users_id` FOREIGN KEY (`uid_id`) REFERENCES `project_app_users` (`id`),
   ADD CONSTRAINT `project_app_property_city_id_id_af9c5ea8_fk_project_app_city_id` FOREIGN KEY (`city_id_id`) REFERENCES `project_app_city` (`id`),
   ADD CONSTRAINT `project_app_prop_cat_id_id_22e2e59c_fk_project_app_categories_id` FOREIGN KEY (`cat_id_id`) REFERENCES `project_app_categories` (`id`);
+
+--
+-- Constraints for table `project_app_propertyimage`
+--
+ALTER TABLE `project_app_propertyimage`
+  ADD CONSTRAINT `project_app_proper_pro_id_id_ecfdca25_fk_project_app_property_id` FOREIGN KEY (`pro_id_id`) REFERENCES `project_app_property` (`id`);
 
 --
 -- Constraints for table `project_app_users`
