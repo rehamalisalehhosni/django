@@ -27,19 +27,15 @@ class Users (models.Model):
 class Categories(models.Model):
 	category_name=models.CharField(max_length=255)
 	def __unicode__(self):
-		return self.category_name
+       return 'name: ' + self.name
 
 class Country(models.Model):
 	country_name=models.CharField(max_length=255)
-	def __unicode__(self):
-		return self.country_name	
+	
 
 class City(models.Model):
 	city_name=models.CharField(max_length=255)
 	coun_id=models.ForeignKey(Country)
-	def __unicode__(self):
-		return self.city_name
-
 
 class Property(models.Model):
 	prop_name=models.CharField(max_length=255)
