@@ -1,6 +1,5 @@
 from django.shortcuts import render
 # Create your views here.
-   
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -18,20 +17,22 @@ def index(request):
 		return render(request,'home.html',{'msg':"success"})	
 	else:
 		return render(request,'home.html',{'msg':"success"})	
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user:
-			if user.is_active:
-				login(request, user)
-				#__setitem__("user_session", request)	
-				request.session['user'] = user.username
-				request.session['active'] = 1
-				return HttpResponseRedirect('/index/')
-			else:
-				return HttpResponse("Your  account is disabled.")
+            if user.is_active:
+                login(request, user)
+                #__setitem__("user_session", request)	
+                request.session['user'] = user.username
+                request.session['user_id'] = user.id
+                request.session['active'] = 1
+                return HttpResponseRedirect('/index/')
+            else:
+                return HttpResponse("Your  account is disabled.")
         else:
             print "Invalid login details: {0}, {1}".format(username, password)
             return HttpResponse("Invalid login details supplied.")

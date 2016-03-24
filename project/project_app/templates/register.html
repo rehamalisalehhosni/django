@@ -1,14 +1,42 @@
-{% load staticfiles %}                                                                      
+{% load staticfiles %}       
 {% include "header.html" %}    
+<div class="content_dispaly">
+    <h3 class="tit"><span class="glyphicon glyphicon-circle-arrow-right "></span>register</h3>
 {% if registered %}
         <strong>thank you for registering!</strong>
-        <a href="">Return to the homepage.</a><br />
+        <a href="/index/">Return to the homepage.</a><br />
 {% else %}
-    <form id="user_form" method="post" action="/register/" enctype="multipart/form-data">
+    <form id="user_form" method="post" class="form col-md-5" role="form" action="/register/" enctype="multipart/form-data">      
+      <!--{{ user_form.as_p }}-->
         {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ profile_form.as_p }}
-        <input type="submit" name="submit" value="Register" />
+        {% for field in user_form %}
+		    <div class="form-group">
+		        {% if field.errors %}
+		       	 {{ field.errors }} {{ field.label_tag }}
+		        {% endif %}
+		        <label>{{ field.label_tag }}</label>
+		        {{ field }}
+		        {% if field.help_text %}
+		        <p class="help">{{ field.help_text|safe }}</p>
+		        {% endif %}
+		    </div>
+		{% endfor %}
+		{% for field in profile_form %}
+		    <div class="form-group">
+		        {% if field.errors %}
+		       	 {{ field.errors }} {{ field.label_tag_as_span }}
+		        {% endif %}
+		        <label>{{ field.label_tag }}</label>
+		         {{ field }}
+		        {% if field.help_text %}
+		        <p class="help">{{ field.help_text|safe }}</p>
+		        {% endif %}
+		    </div>
+		{% endfor %}
+    <!--    {{ profile_form.as_div }} -->
+        <input type="submit" name="submit" class="btn btn-primary" value="Register" />
     </form>
 {% endif %}
+</div>
 {% include "footer.html" %}    
+

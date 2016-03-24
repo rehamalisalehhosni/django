@@ -63,4 +63,6 @@ body >.container-fluid{
     padding-right: 10px;
     position: relative;
     top: 3px;
+}.form{
+    color: #eee;
 }

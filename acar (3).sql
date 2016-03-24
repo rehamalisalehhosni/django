@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 24, 2016 at 12:55 AM
+-- Generation Time: Mar 24, 2016 at 01:19 PM
 -- Server version: 5.5.47-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.14
 
@@ -125,16 +125,15 @@ CREATE TABLE IF NOT EXISTS `auth_user` (
   `date_joined` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `auth_user`
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$24000$J2FoKwTvfLch$UJBJ8Da9uVbCJUt0W6/JdqnjcWjgQaZJdRNoF9LC4dE=', NULL, 1, 'admin', '', '', 'admin@gmail.com', 1, 1, '2016-03-23 21:26:19'),
-(2, 'pbkdf2_sha256$24000$uDNf8A4YAMx6$YQwgf8zkeV4zzocvfKQE9gMwJgPhWEk3ZFcwCYw+pSM=', NULL, 0, 'support', '', '', 'support@gmail.com', 0, 1, '2016-03-23 21:27:33'),
-(3, 'pbkdf2_sha256$24000$uSLlFD6atKEN$FiRJ57bH+RFPS/PBXDIro0CoF2LHggC4bXrm1fdggCs=', NULL, 0, 'demo', '', '', 'demo@gmail.com', 0, 1, '2016-03-23 21:32:23');
+(1, 'pbkdf2_sha256$24000$u66WZB6tWkL4$iANeyJKeJc/bg0jTbVMPWL0Wzh6cXhgbzYDD6AMusUI=', NULL, 1, 'admin', '', '', 'admin@gmail.com', 1, 1, '2016-03-24 10:42:38'),
+(2, 'pbkdf2_sha256$24000$RIJEibIaiyzk$DJOWTnKj2850CxCRFF8hzwgya6jxOC6UpT/nxK0HO0w=', '2016-03-24 11:19:06', 0, 'support', '', '', 'support@gmail.com', 0, 1, '2016-03-24 11:08:41');
 
 -- --------------------------------------------------------
 
@@ -237,19 +236,19 @@ CREATE TABLE IF NOT EXISTS `django_migrations` (
 --
 
 INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
-(1, 'contenttypes', '0001_initial', '2016-03-23 21:16:23'),
-(2, 'auth', '0001_initial', '2016-03-23 21:16:26'),
-(3, 'admin', '0001_initial', '2016-03-23 21:16:27'),
-(4, 'admin', '0002_logentry_remove_auto_add', '2016-03-23 21:16:27'),
-(5, 'contenttypes', '0002_remove_content_type_name', '2016-03-23 21:16:28'),
-(6, 'auth', '0002_alter_permission_name_max_length', '2016-03-23 21:16:28'),
-(7, 'auth', '0003_alter_user_email_max_length', '2016-03-23 21:16:28'),
-(8, 'auth', '0004_alter_user_username_opts', '2016-03-23 21:16:28'),
-(9, 'auth', '0005_alter_user_last_login_null', '2016-03-23 21:16:28'),
-(10, 'auth', '0006_require_contenttypes_0002', '2016-03-23 21:16:28'),
-(11, 'auth', '0007_alter_validators_add_error_messages', '2016-03-23 21:16:29'),
-(12, 'project_app', '0001_initial', '2016-03-23 21:16:31'),
-(13, 'sessions', '0001_initial', '2016-03-23 21:16:32');
+(1, 'contenttypes', '0001_initial', '2016-03-24 10:35:02'),
+(2, 'auth', '0001_initial', '2016-03-24 10:35:05'),
+(3, 'admin', '0001_initial', '2016-03-24 10:35:05'),
+(4, 'admin', '0002_logentry_remove_auto_add', '2016-03-24 10:35:05'),
+(5, 'contenttypes', '0002_remove_content_type_name', '2016-03-24 10:35:06'),
+(6, 'auth', '0002_alter_permission_name_max_length', '2016-03-24 10:35:06'),
+(7, 'auth', '0003_alter_user_email_max_length', '2016-03-24 10:35:06'),
+(8, 'auth', '0004_alter_user_username_opts', '2016-03-24 10:35:06'),
+(9, 'auth', '0005_alter_user_last_login_null', '2016-03-24 10:35:07'),
+(10, 'auth', '0006_require_contenttypes_0002', '2016-03-24 10:35:07'),
+(11, 'auth', '0007_alter_validators_add_error_messages', '2016-03-24 10:35:07'),
+(12, 'project_app', '0001_initial', '2016-03-24 10:35:10'),
+(13, 'sessions', '0001_initial', '2016-03-24 10:35:10');
 
 -- --------------------------------------------------------
 
@@ -264,6 +263,13 @@ CREATE TABLE IF NOT EXISTS `django_session` (
   PRIMARY KEY (`session_key`),
   KEY `django_session_de54fa62` (`expire_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `django_session`
+--
+
+INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('batz81se59ykhr89kbbs56gf88p6bx1u', 'ZmM0OTY2MmE0ODE5NDE0NjQxNWU4ZjU4ZGYxNzI3NDMxYjJmNDRkZDp7InVzZXJfaWQiOjIsIl9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJ1c2VyIjoic3VwcG9ydCIsImFjdGl2ZSI6MSwiX2F1dGhfdXNlcl9oYXNoIjoiNDFlNzNiN2QwZGEyNzI3NGJlYWFhZWM3NzViOGVlNmNjNzY3NzY3MSJ9', '2016-04-07 11:19:06');
 
 -- --------------------------------------------------------
 
@@ -356,19 +362,20 @@ CREATE TABLE IF NOT EXISTS `project_app_users` (
   `points` int(11) DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
   `token` varchar(255) DEFAULT NULL,
+  `phone` int(11) NOT NULL,
   `picture` varchar(100) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `phone` (`phone`),
   UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `project_app_users`
 --
 
-INSERT INTO `project_app_users` (`id`, `points`, `age`, `token`, `picture`, `user_id`) VALUES
-(1, NULL, 23, NULL, '', 2),
-(2, NULL, 33, NULL, '', 3);
+INSERT INTO `project_app_users` (`id`, `points`, `age`, `token`, `phone`, `picture`, `user_id`) VALUES
+(1, NULL, 33, NULL, 2022020, 'profile_images/WPLARRY_2.JPG', 2);
 
 --
 -- Constraints for dumped tables
