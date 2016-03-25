@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from models import *
-from forms import UserForm, UserProfileForm,AddPropertyForm
+from forms import *
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout
@@ -13,6 +13,7 @@ from django.template import *
 import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
+from django.forms.formsets import formset_factory
 
 def index(request):
 	#request=__getitem__("user_session")
@@ -30,9 +31,12 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
+                users = Users.objects.all().filter(user=user.id).order_by('id') 
+                for x in users :
+                    id_u=x.id
                 #__setitem__("user_session", request)	
                 request.session['user'] = user.username
-                request.session['user_id'] = user.id
+                request.session['user_id'] = id_u
                 request.session['active'] = 1
                 return HttpResponseRedirect('/index/')
             else:
@@ -67,10 +71,31 @@ def register(request):
 #	return render(request,'register.html',{'msg':"success"})	
 def add_property(request):
     if "active" in request.session and request.session['active']==1:
-        property_form = AddPropertyForm()
-        return render(request,'add_property.html',{'property_form': property_form})   
- 
-    return HttpResponse("please login required.")
+        UploadfileFormSet = formset_factory(Uploadfiles, max_num=10)            
+        if request.method == 'POST':
+            #uid = Users.objects.only('id').get(id=request.POST['uid'])
+            #request.POST['uid']=useri.id
+            #obj = Users.objects.filter(id=request.session['user_id'])[0]
+            #property_form = Property(uid=obj.id,prop_name=request.POST['prop_name'],city_id=request.POST['city'],cat_id=request.POST['category'])
+            property_form = AddPropertyForm(data=request.POST)
+            UploadfileFormSet = Uploadfiles(data=request.POST)
+            if property_form.is_valid() :
+                pro=property_form.save()
+                tcformset = UploadfileFormSet(request.POST, request.FILES)
+                for tc in tcformset:
+                    content_save = tc.save(commit=False)
+                    content_save = ModelWithFileField(pro_id=property_form.insert_id(),image_name = request.FILES['file'])
+                    content_save.tmodule = module_save
+                    content_save.save()
+                return HttpResponse("done")
+            else:
+                print property_form.errors
+        else:    
+            property_form = AddPropertyForm()
+            UploadfileFormSet = UploadfileFormSet()
+        return render(request,'add_property.html',{'property_form': property_form,'formsetFile': UploadfileFormSet})   
+    else:
+        return HttpResponse("please login required.")
 def getcity(request):
     city_l = City.objects.filter(coun_id=request.GET['id']).order_by('id') 
     data=''

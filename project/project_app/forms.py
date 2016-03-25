@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from models import Users
 from models import *
 
+
 class UserForm(forms.ModelForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -16,8 +17,14 @@ class UserProfileForm(forms.ModelForm):
     phone = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
     #picture = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control'}))
     class Meta:
-		model = Users
-		fields = ('picture','age','phone')
+        model = Users
+        fields = ('picture','age','phone')
+
+class Uploadfiles(forms.Form):
+    image_name = forms.FileField(label='Uplads Images')
+    class Meta:
+        model = PropertyImage
+        fields = ('image_name')
 
 class AddPropertyForm(forms.ModelForm):
     category = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control'}))
@@ -41,11 +48,14 @@ class AddPropertyForm(forms.ModelForm):
     longtiude = forms.CharField(label='longtiude',widget=forms.TextInput(attrs={'class': 'form-control'}))
     Latitude = forms.CharField(label='Latitude',widget=forms.TextInput(attrs={'class': 'form-control'}))
     phone = forms.IntegerField(label='phone',widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    uid=forms.IntegerField(label='',widget = forms.HiddenInput(attrs={'id':'user_id','value':''}))
+
     #picture = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control'}))
     #uid=models.ForeignKey(Users);
     #cat_id=models.ForeignKey(Categories);
     #city_id=models.ForeignKey(City);
     class Meta:
         model = Property
-        fields = ('prop_name','category','Section','address','youtube','phone','owner','area','preview','details','longtiude','Latitude')        
+        fields = ('prop_name','category','Section','address','youtube','phone','owner','area','preview','details','longtiude','Latitude','uid')        
+        #exclude = ('uid',)
 

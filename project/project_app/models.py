@@ -17,7 +17,7 @@ class Users (models.Model):
 	picture = models.ImageField(upload_to='profile_images', blank=True)
     # Override the __unicode__() method to return out something meaningful!
 	def __unicode__(self):
-		return self.user.username
+		return self.user.id
 
 	
 class Categories (models.Model):
@@ -51,6 +51,9 @@ class Property (models.Model):
 	details=models.TextField()
 	longtiude=models.FloatField()
 	Latitude=models.FloatField()
+	def __unicode__(self):
+		return unicode(self.uid)
+
 class PropertyImage (models.Model):
 	pro_id=models.ForeignKey(Property)
 	image_name = models.ImageField(upload_to='property_images', blank=True)

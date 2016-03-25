@@ -16,10 +16,18 @@
 		        {% endif %}
 		    </div>
 		{% endfor %}
+		     {{ formsetFile }}
+
+		     <br/>
             <input type="submit" value="Add" class="btn btn-primary"  />
         </form>
 		<p class="clearfix"></p>
 <script type="text/javascript">
+$(function(){
+	var x={{ request.session.user_id }};
+    console.log(x); 
+	$('#user_id').val(parseInt(x));
+})
 	function getCity(){
 		var co_id=$('#cat_id').val()
 	    $.ajax({
