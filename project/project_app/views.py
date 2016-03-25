@@ -14,6 +14,7 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 from django.forms.formsets import formset_factory
+from django import forms
 
 def index(request):
 	#request=__getitem__("user_session")
@@ -76,11 +77,18 @@ def add_property(request):
             #uid = Users.objects.only('id').get(id=request.POST['uid'])
             #request.POST['uid']=useri.id
             #obj = Users.objects.filter(id=request.session['user_id'])[0]
-            #property_form = Property(uid=obj.id,prop_name=request.POST['prop_name'],city_id=request.POST['city'],cat_id=request.POST['category'])
-            property_form = AddPropertyForm(data=request.POST)
+            #Property.uid = Users.get(pk=request.session['user_id'])
+            #property_form = Property(uid=Property.uid,prop_name=request.POST['prop_name'],city_id=request.POST['city'],cat_id=request.POST['category'])
+            #property_form.save()
             UploadfileFormSet = Uploadfiles(data=request.POST)
+            property_form = AddPropertyForm(data=request.POST)
             if property_form.is_valid() :
-                pro=property_form.save()
+                nuid = Users.objects.get(id=request.POST['uid'])
+                #property_form.save(commit=False)
+                #nuid = Users.objects.get(id=property_form.cleaned_data.get('uid'))
+                #return HttpResponse(nuid)
+                property_form.uid=Users.objects.get(id=request.POST['uid'])
+                property_form.save()
                 tcformset = UploadfileFormSet(request.POST, request.FILES)
                 for tc in tcformset:
                     content_save = tc.save(commit=False)

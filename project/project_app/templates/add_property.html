@@ -26,7 +26,7 @@
 $(function(){
 	var x={{ request.session.user_id }};
     console.log(x); 
-	$('#user_id').val(parseInt(x));
+	$('#user_id').val(x);
 })
 	function getCity(){
 		var co_id=$('#cat_id').val()
