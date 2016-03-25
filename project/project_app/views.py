@@ -4,12 +4,15 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from models import *
-from forms import UserForm, UserProfileForm
+from forms import UserForm, UserProfileForm,AddPropertyForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.template import *
+import json
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core import serializers
 
 def index(request):
 	#request=__getitem__("user_session")
@@ -64,21 +67,17 @@ def register(request):
 #	return render(request,'register.html',{'msg':"success"})	
 def add_property(request):
     if "active" in request.session and request.session['active']==1:
-        if request.method == 'POST':
-            for count,x in enumerate (request.FILES.getlist('files')):
-                def handle_uploaded_file(f):
-                    with open('/home/homa/Desktop/project_django/project/property_images/file_'+str(count), 'wb+') as destination:
-                        for chunk in f.chunks():
-                            destination.write(chunk)
-                handle_uploaded_file(x)     
-            return HttpResponse("please done. File(s)")
-        else:            
-            data = Categories.objects.filter().order_by('id')
-            country_l = Country.objects.filter().order_by('id')
-            city_l = City.objects.filter().order_by('id')
-            return render(request,'add_property.html',{'category': data,'Country': country_l,'city': city_l})   
+        property_form = AddPropertyForm()
+        return render(request,'add_property.html',{'property_form': property_form})   
  
     return HttpResponse("please login required.")
+def getcity(request):
+    city_l = City.objects.filter(coun_id=request.GET['id']).order_by('id') 
+    data=''
+    for x in city_l:
+        data +="<option value='"+str(x.id)+"'>"+x.city_name+"</option>"
+    #data = serializers.serialize('json', city_l, fields=('city_name','id'))
+    return HttpResponse(data)   
 def mypoints(request):
 	return render(request,'mypoints.html',{'msg':"success"})	
 def my_properties(request):

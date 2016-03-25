@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^search/', views.search),
     url(r'^luxury/', views.luxury),
     url(r'^logout/', views.user_logout),
+    url(r'^getcity/', views.getcity),
   
 
 ]

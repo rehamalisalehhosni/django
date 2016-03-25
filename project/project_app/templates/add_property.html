@@ -4,47 +4,33 @@
     <h3 class="tit"><span class="glyphicon glyphicon-circle-arrow-right "></span>add property</h3>
         <form id="property_form" class="form col-md-5" method="post" action="/add_property/"  enctype="multipart/form-data">
             {% csrf_token %}
-            <label>Listing Type: </label>
-            <select name="type" class='form-control'>
-            	{% for f in category %}
-            		<option value="{{ f.id }}">{{ f.category_name }}</option>
-            	{% endfor %}            	
-            </select> 
-            <label>Listing Section: </label>
-            <select name="Section" class='form-control'>
-            	<option value="rent">For Rent</option>
-            	<option value="sale">For Sale</option>
-            </select>       
-            <label>Country: </label>
-            <select name="Country" class='form-control'>
-            	{% for f in Country %}
-            		<option value="{{ f.id }}">{{ f.country_name }}</option>
-            	{% endfor %}            	
-            </select>
-            <label>City: </label>
-            <select name="City" class='form-control'>
-            	{% for f in city %}
-            		<option value="{{ f.id }}">{{ f.city_name }}</option>
-            	{% endfor %}            	
-            </select>
-            <label>Title: </label>
-            <input type="text" name="prop_name" value="" size="50" class='form-control'/>
-            <label>Description: </label>
-            <input type="text" name="details" value="" size="50" class='form-control'/>
-            <label>Phone Number : </label>
-            <input type="text" name="phone" value="" size="50" class='form-control'/>
-            <label>Property Address: </label>
-            <input type="text" name="address" value="" size="50" class='form-control'/>
-            <label>Youtube Video Url: </label>
-            <input type="text" name="youtube" value="" size="50" class='form-control'/>
-            <label>Youtube Video Url: </label>
-            <input type="text" name="youtube" value="" size="50" class='form-control'/>
-            <label>images: </label>
-			<input type="file" name="files" multiple />
-            <br />
-            <br />
-
+       {% for field in property_form %}
+		    <div class="form-group">
+		        {% if field.errors %}
+		       	 {{ field.errors }} {{ field.label_tag }}
+		        {% endif %}
+		        <label>{{ field.label_tag }}</label>
+		        {{ field }}
+		        {% if field.help_text %}
+		        <p class="help">{{ field.help_text|safe }}</p>
+		        {% endif %}
+		    </div>
+		{% endfor %}
             <input type="submit" value="Add" class="btn btn-primary"  />
         </form>
+		<p class="clearfix"></p>
+<script type="text/javascript">
+	function getCity(){
+		var co_id=$('#cat_id').val()
+	    $.ajax({
+	        url: "/getcity/",
+	        data : { id: co_id},
+	        success : function(data) {
+	            $('#city_id').html(data);
+	        }
+	    })	
+	}	
+</script>		
+
 
 {% include "footer.html" %}    
