@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
+from models import *
 from forms import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
@@ -62,7 +63,22 @@ def register(request):
     return render(request,'register.html',{'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
 #	return render(request,'register.html',{'msg':"success"})	
 def add_property(request):
-	return render(request,'add_property.html',{'msg':"success"})	
+    if "active" in request.session and request.session['active']==1:
+        if request.method == 'POST':
+            for count,x in enumerate (request.FILES.getlist('files')):
+                def handle_uploaded_file(f):
+                    with open('/home/homa/Desktop/project_django/project/property_images/file_'+str(count), 'wb+') as destination:
+                        for chunk in f.chunks():
+                            destination.write(chunk)
+                handle_uploaded_file(x)     
+            return HttpResponse("please done. File(s)")
+        else:            
+            data = Categories.objects.filter().order_by('id')
+            country_l = Country.objects.filter().order_by('id')
+            city_l = City.objects.filter().order_by('id')
+            return render(request,'add_property.html',{'category': data,'Country': country_l,'city': city_l})   
+ 
+    return HttpResponse("please login required.")
 def mypoints(request):
 	return render(request,'mypoints.html',{'msg':"success"})	
 def my_properties(request):

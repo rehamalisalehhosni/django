@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from models import Users
+from models import *
 class UserForm(forms.ModelForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -16,4 +17,3 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
 		model = Users
 		fields = ('picture','age','phone')
-		
