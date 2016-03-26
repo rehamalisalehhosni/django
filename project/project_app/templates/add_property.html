@@ -7,7 +7,7 @@
        {% for field in property_form %}
 		    <div class="form-group">
 		        {% if field.errors %}
-		       	 {{ field.errors }} {{ field.label_tag }}
+		       	 {{ field.errors }}
 		        {% endif %}
 		        <label>{{ field.label_tag }}</label>
 		        {{ field }}

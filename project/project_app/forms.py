@@ -38,7 +38,7 @@ class AddPropertyForm(forms.ModelForm):
         self.fields['country'].choices = [(x.pk, x.country_name) for x in Country.objects.all()]
         self.fields['city'].choices = [(x.pk, x.city_name) for x in City.objects.all()]
     prop_name = forms.CharField(label='property Name',widget=forms.TextInput(attrs={'class': 'form-control'}))
-    address = forms.CharField(label='Listing Type',widget=forms.TextInput(attrs={'class': 'form-control'}))
+    address = forms.CharField(label='address',widget=forms.TextInput(attrs={'class': 'form-control'}))
     youtube = forms.CharField(label='youtube',widget=forms.TextInput(attrs={'class': 'form-control'}))
     owner = forms.CharField(label='owner',widget=forms.TextInput(attrs={'class': 'form-control'}))
     area = forms.CharField(label='area',widget=forms.TextInput(attrs={'class': 'form-control'}))

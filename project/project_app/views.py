@@ -76,28 +76,59 @@ def add_property(request):
         if request.method == 'POST':
             #uid = Users.objects.only('id').get(id=request.POST['uid'])
             #request.POST['uid']=useri.id
-            #obj = Users.objects.filter(id=request.session['user_id'])[0]
             #Property.uid = Users.get(pk=request.session['user_id'])
-            #property_form = Property(uid=Property.uid,prop_name=request.POST['prop_name'],city_id=request.POST['city'],cat_id=request.POST['category'])
+            # objcategory = Categories.objects.filter(id=request.POST['category'])[0]
+            # objCity = City.objects.filter(id=request.POST['city'])[0]
+            # property_form.uid=obj
+            # property_form.city_id=objCity
+            # property_form.cat_id=objcategory
             #property_form.save()
-            UploadfileFormSet = Uploadfiles(data=request.POST)
-            property_form = AddPropertyForm(data=request.POST)
-            if property_form.is_valid() :
-                nuid = Users.objects.get(id=request.POST['uid'])
+           # UploadfileFormSet = Uploadfiles(data=request.POST)
+            obj = Users.objects.filter(id=request.session['user_id'])[0]
+            objcategory = Categories.objects.filter(id=request.POST['category'])[0]
+            objCity = City.objects.filter(id=request.POST['city'])[0]
+            request.POST['uid']=obj
+            request.POST['category']=objcategory
+            request.POST['city']=objCity
+            #property_form = AddPropertyForm(request.POST)
+            prop = Property(
+                        uid=obj,
+                        owner=request.POST['owner'],
+                        address=request.POST['address'],
+                        area=request.POST['area'],
+                        price=request.POST['price'],
+                        preview=request.POST['preview'],
+                        details=request.POST['details'],
+                        longtiude=request.POST['longtiude'],
+                        Latitude=request.POST['Latitude'],
+                        youtube=request.POST['youtube'],
+                        prop_name=request.POST['prop_name'],
+                        city_id=objCity,
+                        cat_id=objcategory,
+                        phone=request.POST['phone'])
+            prop.save()
+            #if property_form.is_valid() :
+              #  property_form.save()
+             #   pass
+                # obj = Users.objects.filter(id=request.session['user_id'])[0]
+                # objcategory = Categories.objects.filter(id=request.POST['category'])[0]
+                # objCity = City.objects.filter(id=request.POST['city'])[0]
                 #property_form.save(commit=False)
                 #nuid = Users.objects.get(id=property_form.cleaned_data.get('uid'))
                 #return HttpResponse(nuid)
-                property_form.uid=Users.objects.get(id=request.POST['uid'])
-                property_form.save()
-                tcformset = UploadfileFormSet(request.POST, request.FILES)
-                for tc in tcformset:
-                    content_save = tc.save(commit=False)
-                    content_save = ModelWithFileField(pro_id=property_form.insert_id(),image_name = request.FILES['file'])
-                    content_save.tmodule = module_save
-                    content_save.save()
-                return HttpResponse("done")
-            else:
-                print property_form.errors
+                # property_form=property_form.cleaned_data
+                # property_form.uid=Users.objects.get(id=request.POST['uid'])
+                # property_form.save()
+                # tcformset = UploadfileFormSet(request.POST, request.FILES)
+                # for tc in tcformset:
+                #     content_save = tc.save(commit=False)
+                #     content_save = ModelWithFileField(pro_id=property_form.insert_id(),image_name = request.FILES['file'])
+                #     content_save.tmodule = module_save
+                #     content_save.save()
+            #    return HttpResponse("done")
+            #else:
+            #    print property_form.errors
+            return HttpResponse("Done")
         else:    
             property_form = AddPropertyForm()
             UploadfileFormSet = UploadfileFormSet()
