@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 25, 2016 at 02:14 AM
+-- Generation Time: Mar 26, 2016 at 06:03 PM
 -- Server version: 5.5.47-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.14
 
@@ -101,12 +101,12 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (31, 'Can add property', 11, 'add_property'),
 (32, 'Can change property', 11, 'change_property'),
 (33, 'Can delete property', 11, 'delete_property'),
-(34, 'Can add comments', 12, 'add_comments'),
-(35, 'Can change comments', 12, 'change_comments'),
-(36, 'Can delete comments', 12, 'delete_comments'),
-(37, 'Can add property image', 13, 'add_propertyimage'),
-(38, 'Can change property image', 13, 'change_propertyimage'),
-(39, 'Can delete property image', 13, 'delete_propertyimage');
+(34, 'Can add property image', 12, 'add_propertyimage'),
+(35, 'Can change property image', 12, 'change_propertyimage'),
+(36, 'Can delete property image', 12, 'delete_propertyimage'),
+(37, 'Can add comments', 13, 'add_comments'),
+(38, 'Can change comments', 13, 'change_comments'),
+(39, 'Can delete comments', 13, 'delete_comments');
 
 -- --------------------------------------------------------
 
@@ -135,8 +135,8 @@ CREATE TABLE IF NOT EXISTS `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$24000$u66WZB6tWkL4$iANeyJKeJc/bg0jTbVMPWL0Wzh6cXhgbzYDD6AMusUI=', '2016-03-24 17:03:48', 1, 'admin', '', '', 'admin@gmail.com', 1, 1, '2016-03-24 10:42:38'),
-(2, 'pbkdf2_sha256$24000$RIJEibIaiyzk$DJOWTnKj2850CxCRFF8hzwgya6jxOC6UpT/nxK0HO0w=', '2016-03-24 12:33:48', 0, 'support', '', '', 'support@gmail.com', 0, 1, '2016-03-24 11:08:41');
+(1, 'pbkdf2_sha256$24000$QdH8aNIBxZWH$yYyxiykgNhyD3LW9R0ADyBISXZC+eg2qJ+agGHxDVc0=', '2016-03-25 17:06:58', 1, 'admin', '', '', 'admin@gmail.com', 1, 1, '2016-03-25 17:06:41'),
+(2, 'pbkdf2_sha256$24000$YLdjFrooWI6W$l5NxLyyppRF/3L2kj6mcCGD/Kpc4Mhik3a89vLsnJsc=', '2016-03-25 17:09:37', 0, 'support', '', '', 'support@gmail.com', 0, 1, '2016-03-25 17:09:33');
 
 -- --------------------------------------------------------
 
@@ -186,34 +186,18 @@ CREATE TABLE IF NOT EXISTS `django_admin_log` (
   PRIMARY KEY (`id`),
   KEY `django_admin__content_type_id_c4bce8eb_fk_django_content_type_id` (`content_type_id`),
   KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `django_admin_log`
 --
 
 INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`, `action_flag`, `change_message`, `content_type_id`, `user_id`) VALUES
-(1, '2016-03-24 17:15:08', '1', 'Apartment', 1, 'Added.', 8, 1),
-(2, '2016-03-24 17:15:31', '2', 'Building', 1, 'Added.', 8, 1),
-(3, '2016-03-24 17:15:52', '3', 'Chalet', 1, 'Added.', 8, 1),
-(4, '2016-03-24 17:16:08', '4', 'Furnished Apartment', 1, 'Added.', 8, 1),
-(5, '2016-03-24 17:16:25', '5', 'Land', 1, 'Added.', 8, 1),
-(6, '2016-03-24 17:16:47', '6', 'Farm', 1, 'Added.', 8, 1),
-(7, '2016-03-24 17:17:12', '7', 'Office', 1, 'Added.', 8, 1),
-(8, '2016-03-24 17:17:26', '8', 'Clinic', 1, 'Added.', 8, 1),
-(9, '2016-03-24 17:17:36', '9', 'Store', 1, 'Added.', 8, 1),
-(10, '2016-03-24 17:17:50', '10', 'Villa', 1, 'Added.', 8, 1),
-(11, '2016-03-24 17:18:04', '11', 'Palace', 1, 'Added.', 8, 1),
-(12, '2016-03-24 17:18:43', '12', 'Town House', 1, 'Added.', 8, 1),
-(13, '2016-03-24 17:20:03', '1', 'Egypt', 1, 'Added.', 9, 1),
-(14, '2016-03-24 17:20:51', '2', 'germany', 1, 'Added.', 9, 1),
-(15, '2016-03-24 17:21:23', '3', 'Australia', 1, 'Added.', 9, 1),
-(16, '2016-03-24 17:21:40', '1', 'cairo', 1, 'Added.', 10, 1),
-(17, '2016-03-24 17:21:50', '2', 'mansoura', 1, 'Added.', 10, 1),
-(18, '2016-03-24 17:21:58', '3', 'alex', 1, 'Added.', 10, 1),
-(19, '2016-03-24 17:22:12', '4', 'sharm', 1, 'Added.', 10, 1),
-(20, '2016-03-24 17:22:40', '5', 'berlin', 1, 'Added.', 10, 1),
-(21, '2016-03-24 17:22:51', '6', 'frankfourt', 1, 'Added.', 10, 1);
+(1, '2016-03-25 17:08:11', '1', 'Apartment', 1, 'Added.', 8, 1),
+(2, '2016-03-25 17:08:17', '2', 'Building', 1, 'Added.', 8, 1),
+(3, '2016-03-25 17:08:29', '1', 'Egypt', 1, 'Added.', 9, 1),
+(4, '2016-03-25 17:08:43', '1', 'alex', 1, 'Added.', 10, 1),
+(5, '2016-03-25 17:08:50', '2', 'cairo', 1, 'Added.', 10, 1);
 
 -- --------------------------------------------------------
 
@@ -241,10 +225,10 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (5, 'contenttypes', 'contenttype'),
 (8, 'project_app', 'categories'),
 (10, 'project_app', 'city'),
-(12, 'project_app', 'comments'),
+(13, 'project_app', 'comments'),
 (9, 'project_app', 'country'),
 (11, 'project_app', 'property'),
-(13, 'project_app', 'propertyimage'),
+(12, 'project_app', 'propertyimage'),
 (7, 'project_app', 'users'),
 (6, 'sessions', 'session');
 
@@ -260,27 +244,26 @@ CREATE TABLE IF NOT EXISTS `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `django_migrations`
 --
 
 INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
-(1, 'contenttypes', '0001_initial', '2016-03-24 10:35:02'),
-(2, 'auth', '0001_initial', '2016-03-24 10:35:05'),
-(3, 'admin', '0001_initial', '2016-03-24 10:35:05'),
-(4, 'admin', '0002_logentry_remove_auto_add', '2016-03-24 10:35:05'),
-(5, 'contenttypes', '0002_remove_content_type_name', '2016-03-24 10:35:06'),
-(6, 'auth', '0002_alter_permission_name_max_length', '2016-03-24 10:35:06'),
-(7, 'auth', '0003_alter_user_email_max_length', '2016-03-24 10:35:06'),
-(8, 'auth', '0004_alter_user_username_opts', '2016-03-24 10:35:06'),
-(9, 'auth', '0005_alter_user_last_login_null', '2016-03-24 10:35:07'),
-(10, 'auth', '0006_require_contenttypes_0002', '2016-03-24 10:35:07'),
-(11, 'auth', '0007_alter_validators_add_error_messages', '2016-03-24 10:35:07'),
-(12, 'project_app', '0001_initial', '2016-03-24 10:35:10'),
-(13, 'sessions', '0001_initial', '2016-03-24 10:35:10'),
-(14, 'project_app', '0002_auto_20160324_1219', '2016-03-24 12:19:49');
+(1, 'contenttypes', '0001_initial', '2016-03-25 17:05:42'),
+(2, 'auth', '0001_initial', '2016-03-25 17:05:45'),
+(3, 'admin', '0001_initial', '2016-03-25 17:05:45'),
+(4, 'admin', '0002_logentry_remove_auto_add', '2016-03-25 17:05:46'),
+(5, 'contenttypes', '0002_remove_content_type_name', '2016-03-25 17:05:46'),
+(6, 'auth', '0002_alter_permission_name_max_length', '2016-03-25 17:05:46'),
+(7, 'auth', '0003_alter_user_email_max_length', '2016-03-25 17:05:47'),
+(8, 'auth', '0004_alter_user_username_opts', '2016-03-25 17:05:47'),
+(9, 'auth', '0005_alter_user_last_login_null', '2016-03-25 17:05:47'),
+(10, 'auth', '0006_require_contenttypes_0002', '2016-03-25 17:05:47'),
+(11, 'auth', '0007_alter_validators_add_error_messages', '2016-03-25 17:05:47'),
+(12, 'project_app', '0001_initial', '2016-03-25 17:05:51'),
+(13, 'sessions', '0001_initial', '2016-03-25 17:05:51');
 
 -- --------------------------------------------------------
 
@@ -301,9 +284,7 @@ CREATE TABLE IF NOT EXISTS `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('6eea100byg1yvevd4kftokcqvts8lhjb', 'YTI5MDUwZTExYTVlMzM2YTY4N2YxMDQ4NmE2ZTdhNzY2ZDlkNDk0MDp7Il9hdXRoX3VzZXJfaGFzaCI6IjFlMTk2MTcxYjkwNmU2NGZlZjUwZGZkYWI3MDYyMmVlNDM3NWM0YjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=', '2016-04-07 11:30:17'),
-('apatj6yt49dyd1u2l9tok170g6lowfx9', 'ZmM0OTY2MmE0ODE5NDE0NjQxNWU4ZjU4ZGYxNzI3NDMxYjJmNDRkZDp7InVzZXJfaWQiOjIsIl9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJ1c2VyIjoic3VwcG9ydCIsImFjdGl2ZSI6MSwiX2F1dGhfdXNlcl9oYXNoIjoiNDFlNzNiN2QwZGEyNzI3NGJlYWFhZWM3NzViOGVlNmNjNzY3NzY3MSJ9', '2016-04-07 12:33:48'),
-('jufr3yzvsos88qiv9495uh8io3k034gb', 'YTI5MDUwZTExYTVlMzM2YTY4N2YxMDQ4NmE2ZTdhNzY2ZDlkNDk0MDp7Il9hdXRoX3VzZXJfaGFzaCI6IjFlMTk2MTcxYjkwNmU2NGZlZjUwZGZkYWI3MDYyMmVlNDM3NWM0YjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=', '2016-04-07 17:03:48');
+('arktd7resauz72zgwt2hx7r7w4noyn3w', 'MWM4YTkzMjUxMmEzODU3MWNkYmRhYmU5Zjc3ZDliNjhjOGM5NmRmZDp7InVzZXJfaWQiOjEsIl9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJ1c2VyIjoic3VwcG9ydCIsImFjdGl2ZSI6MSwiX2F1dGhfdXNlcl9oYXNoIjoiYmRlOGQyZTVkYzkyNGYyZWVlMDk4OWRlNjY0NjY2NTgwNjFhMDExYyJ9', '2016-04-08 17:09:37');
 
 -- --------------------------------------------------------
 
@@ -315,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `project_app_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `project_app_categories`
@@ -323,17 +304,7 @@ CREATE TABLE IF NOT EXISTS `project_app_categories` (
 
 INSERT INTO `project_app_categories` (`id`, `category_name`) VALUES
 (1, 'Apartment'),
-(2, 'Building'),
-(3, 'Chalet'),
-(4, 'Furnished Apartment'),
-(5, 'Land'),
-(6, 'Farm'),
-(7, 'Office'),
-(8, 'Clinic'),
-(9, 'Store'),
-(10, 'Villa'),
-(11, 'Palace'),
-(12, 'Town House');
+(2, 'Building');
 
 -- --------------------------------------------------------
 
@@ -347,19 +318,15 @@ CREATE TABLE IF NOT EXISTS `project_app_city` (
   `coun_id_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `project_app_city_0c741588` (`coun_id_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `project_app_city`
 --
 
 INSERT INTO `project_app_city` (`id`, `city_name`, `coun_id_id`) VALUES
-(1, 'cairo', 1),
-(2, 'mansoura', 1),
-(3, 'alex', 1),
-(4, 'sharm', 1),
-(5, 'berlin', 2),
-(6, 'frankfourt', 2);
+(1, 'alex', 1),
+(2, 'cairo', 1);
 
 -- --------------------------------------------------------
 
@@ -385,16 +352,14 @@ CREATE TABLE IF NOT EXISTS `project_app_country` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `country_name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `project_app_country`
 --
 
 INSERT INTO `project_app_country` (`id`, `country_name`) VALUES
-(1, 'Egypt'),
-(2, 'germany'),
-(3, 'Australia');
+(1, 'Egypt');
 
 -- --------------------------------------------------------
 
@@ -422,7 +387,21 @@ CREATE TABLE IF NOT EXISTS `project_app_property` (
   KEY `project_app_prop_cat_id_id_22e2e59c_fk_project_app_categories_id` (`cat_id_id`),
   KEY `project_app_property_city_id_id_af9c5ea8_fk_project_app_city_id` (`city_id_id`),
   KEY `project_app_property_71422c2d` (`uid_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `project_app_property`
+--
+
+INSERT INTO `project_app_property` (`id`, `prop_name`, `address`, `youtube`, `phone`, `owner`, `area`, `price`, `preview`, `details`, `longtiude`, `Latitude`, `cat_id_id`, `city_id_id`, `uid_id`) VALUES
+(1, 'sss', 'first', 'https://www.youtube.com/watch?v=utR1KtRFvxg&list=PLxxA5z-8B2xk4szCgFmgonNcCboyNneMD&index=25', 83789532, 'first', 3421.33, 88, 'first', 'r', 44, 33, 1, 1, 1),
+(2, 'sss', 'first', 'https://www.youtube.com/watch?v=utR1KtRFvxg&list=PLxxA5z-8B2xk4szCgFmgonNcCboyNneMD&index=25', 83789532, 'first', 3421.33, 88, 'first', 'r', 44, 33, 1, 1, 1),
+(3, 'sss', 'first', 'https://www.youtube.com/watch?v=utR1KtRFvxg&list=PLxxA5z-8B2xk4szCgFmgonNcCboyNneMD&index=25', 83789532, 'first', 3421.33, 88, 'first', 'r', 44, 33, 1, 1, 1),
+(4, 'sss', 'first', 'https://www.youtube.com/watch?v=utR1KtRFvxg&list=PLxxA5z-8B2xk4szCgFmgonNcCboyNneMD&index=25', 83789532, 'first', 3421.33, 88, 'first', 'r', 44, 33, 1, 1, 1),
+(5, 'rrrr', 's', 'https://www.youtube.com/watch?v=utR1KtRFvxg&list=PLxxA5z-8B2xk4szCgFmgonNcCboyNneMD&index=25', 978978, 'first', 3421.33, 88, 'first', 'jklj', 3421.33, 33, 1, 1, 1),
+(6, 'sss', 's', 'https://www.youtube.com/watch?v=utR1KtRFvxg&list=PLxxA5z-8B2xk4szCgFmgonNcCboyNneMD&index=25', 989056809, 'first', 3421.33, 3421.33, '3421.33', '55', 3421.33, 33, 1, 1, 1),
+(7, 'sss', 'first', 'https://www.youtube.com/watch?v=utR1KtRFvxg&list=PLxxA5z-8B2xk4szCgFmgonNcCboyNneMD&index=25', 5875, '3', 3421.33, 88, 'first', '', 233, 33, 1, 1, 1),
+(8, 'sss', 'first', 'https://www.youtube.com/watch?v=utR1KtRFvxg&list=PLxxA5z-8B2xk4szCgFmgonNcCboyNneMD&index=25', 33333, '3', 3421.33, 333, 'first', 'f,fk', 3421.33, 3421.33, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -462,7 +441,7 @@ CREATE TABLE IF NOT EXISTS `project_app_users` (
 --
 
 INSERT INTO `project_app_users` (`id`, `points`, `age`, `token`, `phone`, `picture`, `user_id`) VALUES
-(1, NULL, 33, NULL, 2022020, 'profile_images/WPLARRY_2.JPG', 2);
+(1, NULL, 33, NULL, 2147483647, 'profile_images/xanimal24_1024.jpg', 2);
 
 --
 -- Constraints for dumped tables
@@ -472,8 +451,8 @@ INSERT INTO `project_app_users` (`id`, `points`, `age`, `token`, `phone`, `pictu
 -- Constraints for table `auth_group_permissions`
 --
 ALTER TABLE `auth_group_permissions`
-  ADD CONSTRAINT `auth_group_permissi_permission_id_84c5c92e_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  ADD CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`);
+  ADD CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  ADD CONSTRAINT `auth_group_permissi_permission_id_84c5c92e_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`);
 
 --
 -- Constraints for table `auth_permission`
@@ -492,8 +471,8 @@ ALTER TABLE `auth_user_groups`
 -- Constraints for table `auth_user_user_permissions`
 --
 ALTER TABLE `auth_user_user_permissions`
-  ADD CONSTRAINT `auth_user_user_perm_permission_id_1fbb5f2c_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  ADD CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+  ADD CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+  ADD CONSTRAINT `auth_user_user_perm_permission_id_1fbb5f2c_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`);
 
 --
 -- Constraints for table `django_admin_log`
@@ -518,8 +497,8 @@ ALTER TABLE `project_app_comments`
 -- Constraints for table `project_app_property`
 --
 ALTER TABLE `project_app_property`
-  ADD CONSTRAINT `project_app_property_uid_id_3e9b7116_fk_project_app_users_id` FOREIGN KEY (`uid_id`) REFERENCES `project_app_users` (`id`),
   ADD CONSTRAINT `project_app_property_city_id_id_af9c5ea8_fk_project_app_city_id` FOREIGN KEY (`city_id_id`) REFERENCES `project_app_city` (`id`),
+  ADD CONSTRAINT `project_app_property_uid_id_3e9b7116_fk_project_app_users_id` FOREIGN KEY (`uid_id`) REFERENCES `project_app_users` (`id`),
   ADD CONSTRAINT `project_app_prop_cat_id_id_22e2e59c_fk_project_app_categories_id` FOREIGN KEY (`cat_id_id`) REFERENCES `project_app_categories` (`id`);
 
 --
