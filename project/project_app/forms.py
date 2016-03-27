@@ -48,7 +48,7 @@ class AddPropertyForm(forms.ModelForm):
     longtiude = forms.CharField(label='longtiude',widget=forms.TextInput(attrs={'class': 'form-control'}))
     Latitude = forms.CharField(label='Latitude',widget=forms.TextInput(attrs={'class': 'form-control'}))
     phone = forms.IntegerField(label='phone',widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    uid=forms.IntegerField(label='',widget = forms.HiddenInput(attrs={'id':'user_id','value':''}))
+    #uid=forms.CharField(required=False,label='',widget = forms.HiddenInput(attrs={'id':'user_id'}))
 
     #picture = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control'}))
     #uid=models.ForeignKey(Users);
@@ -56,6 +56,6 @@ class AddPropertyForm(forms.ModelForm):
     #city_id=models.ForeignKey(City);
     class Meta:
         model = Property
-        fields = ('prop_name','category','Section','address','youtube','phone','owner','area','preview','details','longtiude','Latitude','uid')        
+        fields = ('prop_name','category','Section','address','youtube','phone','owner','area','preview','details','longtiude','Latitude')        
         #exclude = ('uid',)
 

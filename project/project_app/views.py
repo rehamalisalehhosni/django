@@ -37,8 +37,8 @@ def user_login(request):
                     id_u=x.id
                 #__setitem__("user_session", request)	
                 request.session['user'] = user.username
-                request.session['user_id'] = id_u
                 request.session['active'] = 1
+                request.session['user_id'] = id_u
                 return HttpResponseRedirect('/index/')
             else:
                 return HttpResponse("Your  account is disabled.")
@@ -87,28 +87,35 @@ def add_property(request):
             obj = Users.objects.filter(id=request.session['user_id'])[0]
             objcategory = Categories.objects.filter(id=request.POST['category'])[0]
             objCity = City.objects.filter(id=request.POST['city'])[0]
-            request.POST['uid']=obj
-            request.POST['category']=objcategory
-            request.POST['city']=objCity
-            #property_form = AddPropertyForm(request.POST)
-            prop = Property(
-                        uid=obj,
-                        owner=request.POST['owner'],
-                        address=request.POST['address'],
-                        area=request.POST['area'],
-                        price=request.POST['price'],
-                        preview=request.POST['preview'],
-                        details=request.POST['details'],
-                        longtiude=request.POST['longtiude'],
-                        Latitude=request.POST['Latitude'],
-                        youtube=request.POST['youtube'],
-                        prop_name=request.POST['prop_name'],
-                        city_id=objCity,
-                        cat_id=objcategory,
-                        phone=request.POST['phone'])
-            prop.save()
-            #if property_form.is_valid() :
-              #  property_form.save()
+            #request.POST['uid']=obj
+            property_form = AddPropertyForm(request.POST)
+            # prop = Property(
+            #             uid=obj,
+            #             owner=request.POST['owner'],
+            #             address=request.POST['address'],
+            #             area=request.POST['area'],
+            #             price=request.POST['price'],
+            #             preview=request.POST['preview'],
+            #             details=request.POST['details'],
+            #             longtiude=request.POST['longtiude'],
+            #             Latitude=request.POST['Latitude'],
+            #             youtube=request.POST['youtube'],
+            #             prop_name=request.POST['prop_name'],
+            #             city_id=objCity,
+            #             cat_id=objcategory,
+            #             phone=request.POST['phone'])
+            # prop.save()
+            if property_form.is_valid() :
+                request.POST['category']=objcategory
+                request.POST['city']=objCity
+                savedata = property_form.save(commit=False)
+                savedata.uid = obj
+                savedata.cat_id = objcategory
+                savedata.city_id = objCity
+                savedata.price =  request.POST['price']
+                savedata.save()
+
+                #property_form.save()
              #   pass
                 # obj = Users.objects.filter(id=request.session['user_id'])[0]
                 # objcategory = Categories.objects.filter(id=request.POST['category'])[0]
@@ -125,10 +132,9 @@ def add_property(request):
                 #     content_save = ModelWithFileField(pro_id=property_form.insert_id(),image_name = request.FILES['file'])
                 #     content_save.tmodule = module_save
                 #     content_save.save()
-            #    return HttpResponse("done")
-            #else:
-            #    print property_form.errors
-            return HttpResponse("Done")
+                return HttpResponse("done")
+            else:
+                print property_form.errors
         else:    
             property_form = AddPropertyForm()
             UploadfileFormSet = UploadfileFormSet()
