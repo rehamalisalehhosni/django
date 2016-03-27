@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 from django.shortcuts import render
 # Create your views here.
 from django.contrib import admin
@@ -15,7 +17,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 from django.forms.formsets import formset_factory
 from django import forms
-
+from django.forms import modelformset_factory
 def index(request):
 	#request=__getitem__("user_session")
 	#if  request.user.is_authenticated():
@@ -72,39 +74,15 @@ def register(request):
 #	return render(request,'register.html',{'msg':"success"})	
 def add_property(request):
     if "active" in request.session and request.session['active']==1:
-        UploadfileFormSet = formset_factory(Uploadfiles, max_num=10)            
+        ImageFormSet = modelformset_factory(PropertyImage,form=ImageForm, extra=3)
         if request.method == 'POST':
-            #uid = Users.objects.only('id').get(id=request.POST['uid'])
-            #request.POST['uid']=useri.id
-            #Property.uid = Users.get(pk=request.session['user_id'])
-            # objcategory = Categories.objects.filter(id=request.POST['category'])[0]
-            # objCity = City.objects.filter(id=request.POST['city'])[0]
-            # property_form.uid=obj
-            # property_form.city_id=objCity
-            # property_form.cat_id=objcategory
-            #property_form.save()
-           # UploadfileFormSet = Uploadfiles(data=request.POST)
             obj = Users.objects.filter(id=request.session['user_id'])[0]
             objcategory = Categories.objects.filter(id=request.POST['category'])[0]
             objCity = City.objects.filter(id=request.POST['city'])[0]
-            #request.POST['uid']=obj
             property_form = AddPropertyForm(request.POST)
-            # prop = Property(
-            #             uid=obj,
-            #             owner=request.POST['owner'],
-            #             address=request.POST['address'],
-            #             area=request.POST['area'],
-            #             price=request.POST['price'],
-            #             preview=request.POST['preview'],
-            #             details=request.POST['details'],
-            #             longtiude=request.POST['longtiude'],
-            #             Latitude=request.POST['Latitude'],
-            #             youtube=request.POST['youtube'],
-            #             prop_name=request.POST['prop_name'],
-            #             city_id=objCity,
-            #             cat_id=objcategory,
-            #             phone=request.POST['phone'])
-            # prop.save()
+            #images
+            formset = ImageFormSet(request.POST, request.FILES,queryset=PropertyImage.objects.none())
+
             if property_form.is_valid() :
                 request.POST['category']=objcategory
                 request.POST['city']=objCity
@@ -113,32 +91,22 @@ def add_property(request):
                 savedata.cat_id = objcategory
                 savedata.city_id = objCity
                 savedata.price =  request.POST['price']
-                savedata.save()
+                ret=savedata.save()
 
-                #property_form.save()
-             #   pass
-                # obj = Users.objects.filter(id=request.session['user_id'])[0]
-                # objcategory = Categories.objects.filter(id=request.POST['category'])[0]
-                # objCity = City.objects.filter(id=request.POST['city'])[0]
-                #property_form.save(commit=False)
-                #nuid = Users.objects.get(id=property_form.cleaned_data.get('uid'))
-                #return HttpResponse(nuid)
-                # property_form=property_form.cleaned_data
-                # property_form.uid=Users.objects.get(id=request.POST['uid'])
-                # property_form.save()
-                # tcformset = UploadfileFormSet(request.POST, request.FILES)
-                # for tc in tcformset:
-                #     content_save = tc.save(commit=False)
-                #     content_save = ModelWithFileField(pro_id=property_form.insert_id(),image_name = request.FILES['file'])
-                #     content_save.tmodule = module_save
-                #     content_save.save()
+                c = Property.objects.latest('id')
+                for form in formset.cleaned_data:
+                    image = form['image_name']
+                    photo = PropertyImage(pro_id=c, image_name=image)
+                    photo.save()
+
                 return HttpResponse("done")
             else:
                 print property_form.errors
         else:    
             property_form = AddPropertyForm()
-            UploadfileFormSet = UploadfileFormSet()
-        return render(request,'add_property.html',{'property_form': property_form,'formsetFile': UploadfileFormSet})   
+            formset = ImageFormSet(queryset=PropertyImage.objects.none())
+            #UploadfileFormSet = UploadfileFormSet()
+        return render(request,'add_property.html',{'property_form': property_form,'formsetFile': formset})   
     else:
         return HttpResponse("please login required.")
 def getcity(request):

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 from django import forms
 from django.contrib.auth.models import User
 from models import Users
@@ -20,11 +22,17 @@ class UserProfileForm(forms.ModelForm):
         model = Users
         fields = ('picture','age','phone')
 
-class Uploadfiles(forms.Form):
-    image_name = forms.FileField(label='Uplads Images')
+# class Uploadfiles(forms.Form):
+#     image_name = forms.ImageField(label='Uplads Images')
+#     class Meta:
+#         model = PropertyImage
+#         fields = ('image_name')
+
+class ImageForm(forms.ModelForm):
+    image_name = forms.ImageField(label='Image')    
     class Meta:
         model = PropertyImage
-        fields = ('image_name')
+        fields = ('image_name', )        
 
 class AddPropertyForm(forms.ModelForm):
     category = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control'}))

@@ -16,8 +16,13 @@
 		        {% endif %}
 		    </div>
 		{% endfor %}
-		     {{ formsetFile }}
+		    {{ formsetFile.management_form }}
+			    {% for form in formsetFile %}
+			        {{ form }}
+			    {% endfor %}
 
+<!-- 		     {{ formsetFile }}
+ -->
 		     <br/>
             <input type="submit" value="Add" class="btn btn-primary"  />
         </form>

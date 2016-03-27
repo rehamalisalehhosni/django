@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 from __future__ import unicode_literals
 from django.contrib.auth.admin import User
 from django.db import models
@@ -57,7 +59,7 @@ class Property (models.Model):
 
 class PropertyImage (models.Model):
 	pro_id=models.ForeignKey(Property)
-	image_name = models.ImageField(upload_to='property_images', blank=True)
+	image_name = models.ImageField(upload_to='property_images', verbose_name='Image',)
 
 class Comments (models.Model):
 	coun_id=models.ForeignKey(Users)
