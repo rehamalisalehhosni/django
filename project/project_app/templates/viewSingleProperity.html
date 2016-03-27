@@ -1,0 +1,79 @@
+{% load staticfiles %}                                                                      
+{% include "header.html" %}    
+<div class="content_dispaly" style="color:#fff">
+    <h3 class="tit"><span class="glyphicon glyphicon-circle-arrow-right "></span>{{   property.prop_name }}</h3>
+
+
+    <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Info</a></li>
+	    <li role="presentation"><a href="#preview" aria-controls="profile" role="tab" data-toggle="tab">Preview</a></li>
+	    <li role="presentation"><a href="#details" aria-controls="messages" role="tab" data-toggle="tab">Details</a></li>
+	    <li role="presentation"><a href="#pics" aria-controls="settings" role="tab" data-toggle="tab">Pictures</a></li>
+	  </ul>
+
+    <div class="tab-content">
+	  <!--  Prom Name  / Address / Phone / Owner  / Area / Price / -->
+	  <div role="tabpanel" class="tab-pane fade in active" id="home">
+	  		<div class="row">
+	  			<div class="col-sm-4"> Property Name : </div>
+	  			<div class="col-sm-8"> {{ property.prop_name }}  </div>	
+	  		</div>
+
+	  		<div class="row">
+	  			<div class="col-sm-4"> Category : </div>
+	  			<div class="col-sm-8"> {{ property.cat_id }}  </div>	
+	  		</div>
+	 		
+	 		<div class="row">
+	  			<div class="col-sm-4"> city : </div>
+	  			<div class="col-sm-8"> {{ property.city_id }}  </div>	
+	  		</div>
+
+	  		<div class="row">
+	  			<div class="col-sm-4"> Property Address : </div>
+	  			<div class="col-sm-8"> {{ property.address }}  </div>	
+	  		</div>
+
+	  		<div class="row">
+	  			<div class="col-sm-4"> Property Phone : </div>
+	  			<div class="col-sm-8"> {{ property.phone }}  </div>	
+	  		</div>
+
+	  		<div class="row">
+	  			<div class="col-sm-4"> Property Owner : </div>
+	  			<div class="col-sm-8"> {{ property.owner }}  </div>	
+	  		</div>
+	  		<div class="row">
+	  			<div class="col-sm-4"> Property Area : </div>
+	  			<div class="col-sm-8"> {{ property.area }}  </div>	
+	  		</div>
+	  		<div class="row">
+	  			<div class="col-sm-4"> Property price : </div>
+	  			<div class="col-sm-8"> {{ property.price }}  </div>	
+	  		</div>
+	  		
+
+
+	  </div>
+	  <div role="tabpanel" class="tab-pane fade" id="preview">
+	 		 <!-- # Preview -->
+		    <div class="row">
+		    	{{ property.preview }} 	
+	  		</div>
+
+	  </div>
+	  <div role="tabpanel" class="tab-pane fade" id="details">
+	  	 <!-- # Preview -->
+		    <div class="row">
+		    	{{ property.details }} 	
+	  		</div>	
+
+
+	  </div>
+	  <div role="tabpanel" class="tab-pane fade" id="pics">Pics   bs  lsa m7lethash </div>
+	</div>
+
+	<hr>
+
+
+{% include "footer.html" %}    

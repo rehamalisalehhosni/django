@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 from django.shortcuts import render
 # Create your views here.
 from django.contrib import admin
@@ -39,8 +37,8 @@ def user_login(request):
                     id_u=x.id
                 #__setitem__("user_session", request)	
                 request.session['user'] = user.username
-                request.session['active'] = 1
                 request.session['user_id'] = id_u
+                request.session['active'] = 1
                 return HttpResponseRedirect('/index/')
             else:
                 return HttpResponse("Your  account is disabled.")
@@ -79,6 +77,7 @@ def add_property(request):
             obj = Users.objects.filter(id=request.session['user_id'])[0]
             objcategory = Categories.objects.filter(id=request.POST['category'])[0]
             objCity = City.objects.filter(id=request.POST['city'])[0]
+            objsec = Section.objects.filter(id=request.POST['section'])[0]
             property_form = AddPropertyForm(request.POST)
             #images
             formset = ImageFormSet(request.POST, request.FILES,queryset=PropertyImage.objects.none())
@@ -86,10 +85,12 @@ def add_property(request):
             if property_form.is_valid() :
                 request.POST['category']=objcategory
                 request.POST['city']=objCity
+                request.POST['section']=objsec
                 savedata = property_form.save(commit=False)
                 savedata.uid = obj
                 savedata.cat_id = objcategory
                 savedata.city_id = objCity
+                savedata.sec_id = objsec
                 savedata.price =  request.POST['price']
                 ret=savedata.save()
 
@@ -109,6 +110,16 @@ def add_property(request):
         return render(request,'add_property.html',{'property_form': property_form,'formsetFile': formset})   
     else:
         return HttpResponse("please login required.")
+
+
+def property(request,property_id):
+    
+        property_data = Property.objects.get(pk=property_id)
+        return render(request,'viewSingleProperity.html',{'property':property_data })
+        #subproperty_data = PropertyImage.objects.get(property_data)
+        #return render(request,'viewSingleProperity.html',{'property':property_data , 'subproperty' : subproperty_data})    
+ 
+
 def getcity(request):
     city_l = City.objects.filter(coun_id=request.GET['id']).order_by('id') 
     data=''
@@ -125,7 +136,16 @@ def my_notifiers(request):
 def setting(request):
 	return render(request,'setting.html',{'msg':"success"})	
 def search(request):
-	return render(request,'search.html',{'msg':"success"})	
+
+        # if "active" in request.session and request.session['active']==1:
+        #     objCountry = Country.objects.filter(id=request.POST['country'])[0]
+        #     objcategory = Categories.objects.filter(id=request.POST['category'])[0]
+        #     objCity = City.objects.filter(id=request.POST['city'])[0]
+        # else:
+            form= SearchForm()
+            return render(request,'search.html' ,{'form':form})
+
+
 def luxury(request):
 	return render(request,'luxury.html',{'msg':"success"})		
 @login_required

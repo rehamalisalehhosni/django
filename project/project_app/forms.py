@@ -22,29 +22,25 @@ class UserProfileForm(forms.ModelForm):
         model = Users
         fields = ('picture','age','phone')
 
-# class Uploadfiles(forms.Form):
-#     image_name = forms.ImageField(label='Uplads Images')
-#     class Meta:
-#         model = PropertyImage
-#         fields = ('image_name')
-
 class ImageForm(forms.ModelForm):
     image_name = forms.ImageField(label='Image')    
     class Meta:
         model = PropertyImage
         fields = ('image_name', )        
 
+
 class AddPropertyForm(forms.ModelForm):
     category = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control'}))
     country = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'cat_id','onchange':'getCity()'}))
     city = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'city_id'}))
-    Section = forms.ChoiceField(choices = [('rent','For Rent'),('sale','For Sale')],widget=forms.Select(attrs={'class':'form-control'}))
+    section = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'sec_id'}))
 
     def __init__(self, *args, **kwargs):
         super(AddPropertyForm, self).__init__(*args, **kwargs)
         self.fields['category'].choices = [(x.pk, x.category_name) for x in Categories.objects.all()]
         self.fields['country'].choices = [(x.pk, x.country_name) for x in Country.objects.all()]
         self.fields['city'].choices = [(x.pk, x.city_name) for x in City.objects.all()]
+        self.fields['section'].choices = [(x.pk, x.sec_name) for x in Section.objects.all()]
     prop_name = forms.CharField(label='property Name',widget=forms.TextInput(attrs={'class': 'form-control'}))
     address = forms.CharField(label='address',widget=forms.TextInput(attrs={'class': 'form-control'}))
     youtube = forms.CharField(label='youtube',widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -64,6 +60,24 @@ class AddPropertyForm(forms.ModelForm):
     #city_id=models.ForeignKey(City);
     class Meta:
         model = Property
-        fields = ('prop_name','category','Section','address','youtube','phone','owner','area','preview','details','longtiude','Latitude')        
+        fields = ('prop_name','category','section','address','youtube','phone','owner','area','preview','details','longtiude','Latitude')        
         #exclude = ('uid',)
 
+class SearchForm(forms.ModelForm):
+    category = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control'}))
+    country = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'cat_id','onchange':'getCity()'}))
+    city = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'city_id'}))
+    section = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'sec_id'}))
+    MinRange = forms.ChoiceField(choices = [(1, 1000) ,(2, 1500),(3, 2000) ,(4, 2500),(5, 3000) ,(6, 3500),(1, 100000) ,(2, 150000),(3, 200000) ,(4, 250000),(5, 300000) ,(6, 350000)],widget=forms.Select(attrs={'class':'form-control'}))
+    MaxRange = forms.ChoiceField(choices = [(1, 1000) ,(2, 1500),(3, 2000) ,(4, 2500),(5, 3000) ,(6, 3500) ,(1, 100000) ,(2, 150000),(3, 200000) ,(4, 250000),(5, 300000) ,(6, 350000)],widget=forms.Select(attrs={'class':'form-control'}))
+    def __init__(self, *args, **kwargs):
+        super(SearchForm, self).__init__(*args, **kwargs)
+        self.fields['category'].choices = [(x.pk, x.category_name) for x in Categories.objects.all()]
+        self.fields['country'].choices = [(x.pk, x.country_name) for x in Country.objects.all()]
+        self.fields['city'].choices = [(x.pk, x.city_name) for x in City.objects.all()]
+        self.fields['section'].choices = [(x.pk, x.sec_name) for x in Section.objects.all()]
+
+    class Meta:
+        model = Property
+        fields = ('category','country','city','section','MaxRange','MinRange')        
+       

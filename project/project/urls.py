@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^add_property/', views.add_property),
     url(r'^mypoints/', views.mypoints),
     url(r'^my_properties/', views.my_properties),
+    url(r'^properties/(\d{1,4})/$', views.property),
     url(r'^my_notifiers/', views.my_notifiers),
     url(r'^setting/', views.setting),
     url(r'^search/', views.search),
@@ -34,4 +35,6 @@ urlpatterns = [
   
 
 ]
+
+
 

@@ -1,5 +1,4 @@
 # encoding: utf-8
-
 from __future__ import unicode_literals
 from django.contrib.auth.admin import User
 from django.db import models
@@ -39,11 +38,17 @@ class City (models.Model):
 	def __unicode__(self):
 		return self.city_name
 
+class Section (models.Model):
+	sec_name=models.CharField(max_length=255)
+	def __unicode__(self):
+		return self.sec_name
+
 class Property (models.Model):
 	prop_name=models.CharField(max_length=255)
 	uid=models.ForeignKey(Users);
 	cat_id=models.ForeignKey(Categories);
 	city_id=models.ForeignKey(City);
+	sec_id=models.ForeignKey(Section);
 	address=models.CharField(max_length=255)
 	youtube=models.URLField(max_length=255)
 	phone=models.IntegerField()
@@ -63,5 +68,5 @@ class PropertyImage (models.Model):
 
 class Comments (models.Model):
 	coun_id=models.ForeignKey(Users)
-	coun_id=models.ForeignKey(Property)
+	pro_id=models.ForeignKey(Property)
 	comment=models.TextField()

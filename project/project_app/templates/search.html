@@ -1,0 +1,51 @@
+{% load staticfiles %}                                                                      
+{% include "header.html" %} 
+<div class="content_dispaly" >
+<h3 class="tit"><span class="glyphicon glyphicon-circle-arrow-right "></span>Search</h3>
+
+	<div class="col-sm-3  tit">
+		
+		<form id="search_form" class="form col-lg-9" method="post" action="/search/"  enctype="multipart/form-data">
+            {% csrf_token %}
+      		 {% for field in form %}
+			    <div class="form-group">
+			        {% if field.errors %}
+			       	 {{ field.errors }}
+			        {% endif %}
+			        <label>{{ field.label_tag }}</label>
+			        {{ field }}
+			        {% if field.help_text %}
+			        <p class="help">{{ field.help_text|safe }}</p>
+			        {% endif %}
+			    </div>
+			{% endfor %}
+
+		     <br/>
+            <input type="submit" value="search" class="btn btn-primary"  />
+        </form>
+
+<script type="text/javascript">
+
+	function getCity(){
+		var co_id=$('#cat_id').val()
+	    $.ajax({
+	        url: "/getcity/",
+	        data : { id: co_id},
+	        success : function(data) {
+	            $('#city_id').html(data);
+	        }
+	    })	
+	}	
+</script>		
+
+	</div> 
+
+	<div class="col-sm-9  tit">
+		
+
+	</div>
+</div>
+
+{% include "footer.html" %}  
+
+   
