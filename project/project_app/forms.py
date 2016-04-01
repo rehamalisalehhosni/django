@@ -60,7 +60,7 @@ class AddPropertyForm(forms.ModelForm):
     #city_id=models.ForeignKey(City);
     class Meta:
         model = Property
-        fields = ('prop_name','category','section','address','youtube','phone','owner','area','preview','details','longtiude','Latitude')        
+        fields = ('prop_name','category','section','address','youtube','phone','owner','area','preview','details','longtiude','Latitude','price')        
         #exclude = ('uid',)
 
 class SearchForm(forms.ModelForm):
@@ -68,8 +68,8 @@ class SearchForm(forms.ModelForm):
     country = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'cat_id','onchange':'getCity()'}))
     city = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'city_id'}))
     section = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'sec_id'}))
-    MinRange = forms.ChoiceField(choices = [(1, 1000) ,(2, 1500),(3, 2000) ,(4, 2500),(5, 3000) ,(6, 3500),(1, 100000) ,(2, 150000),(3, 200000) ,(4, 250000),(5, 300000) ,(6, 350000)],widget=forms.Select(attrs={'class':'form-control'}))
-    MaxRange = forms.ChoiceField(choices = [(1, 1000) ,(2, 1500),(3, 2000) ,(4, 2500),(5, 3000) ,(6, 3500) ,(1, 100000) ,(2, 150000),(3, 200000) ,(4, 250000),(5, 300000) ,(6, 350000)],widget=forms.Select(attrs={'class':'form-control'}))
+    MinRange = forms.ChoiceField(choices = [(1000, 1000) ,(1500, 1500),(2000, 2000) ,(2500, 2500),(3000, 3000) ,(3500, 3500),(100000, 100000) ,(150000, 150000),(200000, 200000) ,(250000, 250000),(300000, 300000) ,(350000, 350000)],widget=forms.Select(attrs={'class':'form-control'}))
+    MaxRange = forms.ChoiceField(choices = [(1000, 1000) ,(1500, 1500),(2000, 2000) ,(2500, 2500),(3000, 3000) ,(3500, 3500) ,(100000, 100000) ,(150000, 150000),(200000, 200000) ,(250000, 250000),(300000, 300000) ,(350000, 350000)],widget=forms.Select(attrs={'class':'form-control'}))
     def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
         self.fields['category'].choices = [(x.pk, x.category_name) for x in Categories.objects.all()]
@@ -80,4 +80,8 @@ class SearchForm(forms.ModelForm):
     class Meta:
         model = Property
         fields = ('category','country','city','section','MaxRange','MinRange')        
-       
+class msgFormView(forms.ModelForm):
+    comment = forms.CharField(label='comment',widget=forms.Textarea(attrs={'class': 'form-control'}))
+    class Meta:
+        model = Comments
+        fields = ('comment',)               

@@ -38,6 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'project_app',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.google',
+
+
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -66,6 +75,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+
             ],
         },
     },
@@ -86,7 +97,9 @@ DATABASES = {
         'PASSWORD':'iti',
          }
 }
-
+SOCIALACCOUNT_PROVIDERS = \
+    { 'facebook':
+        { 'LOCALE_FUNC': lambda request: 'en_US'} }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -106,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -129,3 +142,17 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_URL = '/static/'
+
+# typically, os.path.join(os.path.dirname(__file__), 'media')
+MEDIA_ROOT = 'media/'
+MEDIA_URL = '/media/'
+
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
+)
+SITE_ID = 1
+LOGIN_REDIRECT_URL = "/index"

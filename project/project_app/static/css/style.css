@@ -65,4 +65,8 @@ body >.container-fluid{
     top: 3px;
 }.form{
     color: #eee;
+}.table.table-bordered{
+    background: #eee;
+}.text-center{
+    text-align: center;
 }

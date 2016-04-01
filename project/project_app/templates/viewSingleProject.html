@@ -1,0 +1,81 @@
+{% load staticfiles %}                                                                      
+{% include "header.html" %}    
+<div class="content_dispaly" style="color:#fff">
+    <h3 class="tit"><span class="glyphicon glyphicon-circle-arrow-right "></span>{{   projects.pro_name }}</h3>
+
+
+<div class="row">
+	  	 {% for c  in project_data_image %}
+		  	 	<!--<img src="property_images/{{ c.image_name }}" />-->
+		  	 	<div class="col-sm-4">
+		  	 		<img class="img-responsive img-thumbnails" src="{{ MEDIA_URL }} /media/{{ c.image_name }}" />	
+		  	 	</div>
+		  	 	
+	  	 {% endfor %}
+  	</div>
+
+	  		<div class="row">
+	  			<div class="col-sm-4"> project Name : </div>
+	  			<div class="col-sm-8"> {{ projects.pro_name}}  </div>	
+	  		</div>
+
+	  		<div class="row">
+	  			<div class="col-sm-4"> Description : </div>
+	  			<div class="col-sm-8"> {{projects.Description}}  </div>	
+	  		</div>
+	 		
+	 		<div class="row">
+	  			<div class="col-sm-4"> Address </div>
+	  			<div class="col-sm-8"> {{ projects.Address}}  </div>	
+	  		</div>
+
+	  		<div class="row">
+	  			<div class="col-sm-4"> Services : </div>
+	  			<div class="col-sm-8"> {{ projects.Services }}  </div>	
+	  		</div>
+
+	  		<div class="row">
+	  			<div class="col-sm-4"> Payment Methods : </div>
+	  			<div class="col-sm-8"> {{ projects.PaymentMethods }}  </div>	
+	  		</div>
+
+	  		<div class="row">
+	  			<div class="col-sm-4"> Delivery Date : </div>
+	  			<div class="col-sm-8"> {{ projects.DeliveryDate }}  </div>	
+	  		</div>
+	  		<div class="row">
+	  			<div class="col-sm-4"> OwnerCompany: </div>
+	  			<div class="col-sm-8"> {{ projects.OwnerCompany}}  </div>	
+	  		</div>
+
+<div class="row">
+	  	 {% for c  in project_data_unit %}
+		  	 <div class="row">
+	  			<div class="col-sm-4"> unit name: </div>
+	  			<div class="col-sm-8"> {{ project_data_unit.unit_name}}  </div>	
+	  		</div> 
+	  		<div class="row">
+	  			<div class="col-sm-4"> min_area: </div>
+	  			<div class="col-sm-8"> {{ project_data_unit.min_area}}  </div>	
+	  		</div>
+	  		<div class="row">
+	  			<div class="col-sm-4"> max_area: </div>
+	  			<div class="col-sm-8"> {{ project_data_unit.max_area}}  </div>	
+	  		</div>
+	  		<div class="row">
+	  			<div class="col-sm-4"> min Price: </div>
+	  			<div class="col-sm-8"> {{ project_data_unit.minPrice}}  </div>	
+	  		</div>
+	  		<div class="row">
+	  			<div class="col-sm-4"> max Price: </div>
+	  			<div class="col-sm-8"> {{ project_data_unit.maxPrice}}  </div>	
+	  		</div>
+		  	 	
+	  	 {% endfor %}
+  	</div>
+
+  </div>
+	 
+
+
+{% include "footer.html" %}    

@@ -1,4 +1,7 @@
 {% load staticfiles %}
+{% load socialaccount %}
+{% providers_media_js %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,6 +16,7 @@
     <body>
         <div class="container-fluid">
             <div class="container">
+
                 <header>
                     <div class="logo pull-left"><img src="{% static 'img/logo.png' %}" width="150px;" /></div>
                     <ul class="list-inline pull-right menu">
@@ -20,17 +24,20 @@
                     {% if request.user.is_authenticated %}
                         <li>{{ user.username }}!</li>
                         <li><a href="/add_property/">Add property</a></li>
+                        <li><a href="/my_notice/">My Notifications</a></li>
+                        <li><a href="/my_properties/">My property</a></li>
                         <li><a href="/logout/">Logout</a></li>
                         {% else %}
                         <li><a href="/register/">Register </a></li>
+                         <li><a href="{% provider_login_url "facebook" method="js_sdk" %}">Facebook Connect</a></li>
+
                         <li><a href="/login/">Login</a></li>
                         {% endif %}
                         <li><a href="#">Real Estate</a></li>
-                        <li><a href="#">List your property</a></li>
 
                         <li><a href="/search/">search</a></li>
-                        <li><a href="#">New Projects</a></li>
-                        <li><a href="#">Luxury</a></li>
+                        <li><a href="/newprojects">New Projects</a></li>
+                        <li><a href="/luxury">Luxury</a></li>
                     </ul>
                     <p class="clearfix"></p>
                 </header>

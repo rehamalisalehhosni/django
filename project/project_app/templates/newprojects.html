@@ -1,0 +1,35 @@
+{% load staticfiles %}                                                                      
+{% include "header.html" %} 
+<div class="content_dispaly" >
+<h3 class="tit"><span class="glyphicon glyphicon-circle-arrow-right "></span>NewProjects</h3>
+
+
+
+	<div class="col-sm-12  tit">
+		<div class="content-display">
+		
+			{%for proj in projects %}
+				    <div class="col-md-4 proj">
+				        <img src="{% static 'images/d.jpg' %}" class="img-responsive img-rounded" alt=""/>
+				        <h3><a href="">{{proj.pro_name}}</a></h3>
+				        <p class="details"> 
+				        	{{proj.Address}}
+				        	<!--{{proj.unit_id.minPrice}}-->
+				        </p>
+				        <a href="/en/projects/kenz-compound" target="_blank" class="btn btn-primary pull-right">Details</a>
+				        <p class="clearfix"></p>
+				    </div>
+				    {% empty %}
+					there is no result Matched
+			{%endfor%}
+
+		</div>
+
+	</div>
+</div>
+
+{% include "footer.html" %}  
+
+
+
+

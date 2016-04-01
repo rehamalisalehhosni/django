@@ -1,4 +1,7 @@
+# encoding: utf-8
+
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 # Create your views here.
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -16,14 +19,15 @@ from django.core import serializers
 from django.forms.formsets import formset_factory
 from django import forms
 from django.forms import modelformset_factory
+from django.shortcuts import redirect
+
+
+
 def index(request):
 	#request=__getitem__("user_session")
 	#if  request.user.is_authenticated():
-	if "active" in request.session and request.session['active']==1:
-		return render(request,'home.html',{'msg':"success"})	
-	else:
-		return render(request,'home.html',{'msg':"success"})	
-
+    property_data = Property.objects.filter().prefetch_related('img_pro')
+    return render(request,'home.html',{'property_data':property_data })
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -91,16 +95,17 @@ def add_property(request):
                 savedata.cat_id = objcategory
                 savedata.city_id = objCity
                 savedata.sec_id = objsec
-                savedata.price =  request.POST['price']
+                #savedata.price =  request.POST['price']
                 ret=savedata.save()
 
                 c = Property.objects.latest('id')
+                #check vlue not null
                 for form in formset.cleaned_data:
-                    image = form['image_name']
-                    photo = PropertyImage(pro_id=c, image_name=image)
-                    photo.save()
-
-                return HttpResponse("done")
+                        image = form['image_name']
+                        photo = PropertyImage(pro_id=c, image_name=image)
+                        photo.save()                
+                msg ="done "                        
+                return render(request,'result_remove.html',{'msg':msg })
             else:
                 print property_form.errors
         else:    
@@ -111,14 +116,97 @@ def add_property(request):
     else:
         return HttpResponse("please login required.")
 
+    msg ="removed success "
+    return render(request,'result_remove.html',{'msg':msg })
+def delete_property(request,property_id):
+    u = Property.objects.get(pk=property_id).delete();
+    msg ="removed success \n "
+    return render(request,'result_remove_image.html',{'msg':msg })
+
+def sendMessage(request):
+    if "active" in request.session and request.session['active']==1:
+        if request.method == 'POST':
+            u_id = Users.objects.filter(id=request.session['user_id'])[0]
+            pro_id = Property.objects.filter(pk=request.POST['pro_id'])[0]
+            msg =  request.POST['comment']
+            msg_form = msgFormView(request.POST)
+            if msg_form.is_valid() :
+                savedata = msg_form.save(commit=False)
+                savedata.coun_id = u_id
+                savedata.pro_id = pro_id
+                savedata.comment = msg
+                ret=savedata.save()
+                return HttpResponse('Message Saved Successffully')
+        else :
+            return HttpResponse('No Post Found')
+    else :
+        return HttpResponse('You Are Not Loged In Please Login From <a href="/login/">Here</a>')
+
+
+def viewNotice(request):
+    if "active" in request.session and request.session['active']==1:
+        obj = Users.objects.filter(id=request.session['user_id'])[0]
+        property_data = Property.objects.filter(uid=obj)
+        comment_data = Comments.objects.filter()
+        return render(request,'viewmyNotice.html',{'property_data':property_data , 'comment_data' : comment_data }) 
+        #return HttpResponse('aaaaaaaaaf')
+    else :
+        return HttpResponse('You Are Not Loged In Please Login From <a href="/login/">Here</a>')
+
+
+
+def deleteMessage(request,comment_id):
+    u = Comments.objects.get(pk=comment_id).delete();
+    msg ="removed success "
+    return HttpResponse(msg)
+
+
+
 
 def property(request,property_id):
     
         property_data = Property.objects.get(pk=property_id)
-        return render(request,'viewSingleProperity.html',{'property':property_data })
+        property_data_image = PropertyImage.objects.filter(pro_id=property_data)
+        msgForm = msgFormView()
+        return render(request,'viewSingleProperity.html',{'property':property_data ,'images':property_data_image ,'form' : msgForm  })
         #subproperty_data = PropertyImage.objects.get(property_data)
         #return render(request,'viewSingleProperity.html',{'property':property_data , 'subproperty' : subproperty_data})    
- 
+def image_delete(request,img_id):
+    c= PropertyImage.objects.get(pk=img_id)
+    u = PropertyImage.objects.get(pk=img_id).delete();
+    msg ="removed success "
+    return render(request,'result_remove.html',{'msg':msg })
+
+def edit_property(request,property_id):
+    property_form = AddPropertyForm()
+    # image_list = Property.images.all()
+    pro = Property.objects.get(pk=property_id)
+    image_list = PropertyImage.objects.filter(pro_id=pro)
+    if request.method == 'POST':
+        obj = Users.objects.filter(id=request.session['user_id'])[0]
+        objcategory = Categories.objects.filter(id=request.POST['category'])[0]
+        objCity = City.objects.filter(id=request.POST['city'])[0]
+        objsec = Section.objects.filter(id=request.POST['section'])[0]
+        instance = get_object_or_404(Property, id=property_id)
+        property_form = AddPropertyForm(request.POST or None, instance=instance)
+        if property_form.is_valid() :
+            request.POST['category']=objcategory
+            request.POST['city']=objCity
+            request.POST['section']=objsec
+            savedata = property_form.save(commit=False)
+            savedata.uid = obj
+            savedata.cat_id = objcategory
+            savedata.city_id = objCity
+            savedata.sec_id = objsec
+            ret=savedata.save()
+            msg ="done "                        
+            return render(request,'result_remove.html',{'msg':msg })
+        else:
+            print property_form.errors
+    else:
+        mydata = Property.objects.get(id=property_id)
+        property_form = AddPropertyForm(instance=mydata)
+    return render(request,'edit_property.html',{'property_form':property_form ,'image_list':image_list,'property_id':property_id})
 
 def getcity(request):
     city_l = City.objects.filter(coun_id=request.GET['id']).order_by('id') 
@@ -130,32 +218,49 @@ def getcity(request):
 def mypoints(request):
 	return render(request,'mypoints.html',{'msg':"success"})	
 def my_properties(request):
-	return render(request,'my_properties.html',{'msg':"success"})	
+    obj = Users.objects.filter(id=request.session['user_id'])[0]
+    property_data = Property.objects.filter(uid=obj)
+    return render(request,'my_properties.html',{'property_data':property_data})	
 def my_notifiers(request):
 	return render(request,'my_notifiers.html',{'msg':"success"})	
 def setting(request):
 	return render(request,'setting.html',{'msg':"success"})	
 def search(request):
+        form= SearchForm()
+        if request.method == 'POST':
+            objcategory = Categories.objects.filter(id=request.POST['category'])[0]
+            objcountry = Country.objects.filter(id=request.POST['country'])[0]
+            objCity = City.objects.filter(id=request.POST['city'])[0]
+            objsec = Section.objects.filter(id=request.POST['section'])[0]
+            minimum = request.POST['MinRange']
+            maximum = request.POST['MaxRange']
+            #prop = property.objects.filter(cat_id =objcategory)
+            #prop = Property.objects.filter()
+            prop = Property.objects.filter(cat_id =objcategory ,country_id =objcountry ,city_id=objCity ,sec_id =objsec , price__gte= minimum , price__lte=maximum)
+            return render(request, 'search.html',{'property':prop,'form':form})
+        else :
+            return render(request,'search.html',{'form':form} )
 
-        # if "active" in request.session and request.session['active']==1:
-        #     objCountry = Country.objects.filter(id=request.POST['country'])[0]
-        #     objcategory = Categories.objects.filter(id=request.POST['category'])[0]
-        #     objCity = City.objects.filter(id=request.POST['city'])[0]
-        # else:
-            form= SearchForm()
-            return render(request,'search.html' ,{'form':form})
+        
+
+def newprojects(request):
+    projs=NewProjects.objects.filter()
+    return render(request,'newprojects.html',{'projects':projs})
 
 
 def luxury(request):
-	return render(request,'luxury.html',{'msg':"success"})		
+    luxs=Luxury.objects.filter()
+    return render(request,'luxury.html',{'luxury':luxs})
+
+def viewSingleProject(request ,pro_id):
+    project_data = NewProjects.objects.get(pk=pro_id)
+    project_data_image = NewProjectsImage.objects.filter(proj_id=project_data)
+    project_data_unit = Units.objects.filter(project_id=project_data)
+    return render(request,'viewSingleProject.html',{'project':property_data ,'images':project_data_image ,'units' : project_data_unit})
+
+
 @login_required
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
-	del request.session['user']
-	del request.session['active']
-	logout(request)
-
-    # Take the user back to the homepage.
- 	return HttpResponseRedirect('/index/')
-#admin.site.unregister(User)
-#admin.site.register(User)
+    logout(request)
+    return redirect('/index/')

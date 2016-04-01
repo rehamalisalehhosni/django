@@ -47,6 +47,7 @@ class Property (models.Model):
 	prop_name=models.CharField(max_length=255)
 	uid=models.ForeignKey(Users);
 	cat_id=models.ForeignKey(Categories);
+	country_id=models.ForeignKey(Country ,default=1);
 	city_id=models.ForeignKey(City);
 	sec_id=models.ForeignKey(Section);
 	address=models.CharField(max_length=255)
@@ -63,10 +64,55 @@ class Property (models.Model):
 		return self.uid
 
 class PropertyImage (models.Model):
-	pro_id=models.ForeignKey(Property)
+	pro_id=models.ForeignKey(Property, related_name = "img_pro")
 	image_name = models.ImageField(upload_to='property_images', verbose_name='Image',)
 
 class Comments (models.Model):
 	coun_id=models.ForeignKey(Users)
 	pro_id=models.ForeignKey(Property)
 	comment=models.TextField()
+	#rec_id=models.ForeignKey(Users ,default=1)
+
+
+
+class NewProjects(models.Model):
+	pro_id=models.IntegerField()
+	pro_name=models.CharField(max_length=255)
+	Description=models.TextField()
+	Address=models.TextField()
+	Services=models.TextField()
+	PaymentMethods=models.TextField()
+	DeliveryDate=models.TextField()
+	OwnerCompany=models.TextField()
+	longtiude=models.FloatField()
+	latitude=models.FloatField()
+
+class Units(models.Model):
+	unit_id=models.IntegerField()
+	project_id=models.ForeignKey(NewProjects ,default="1")
+	unit_name=models.CharField(max_length=255)
+	min_area=models.FloatField()
+	max_area=models.FloatField()
+	minPrice=models.FloatField()
+	maxPrice=models.FloatField()
+
+class NewProjectsImage (models.Model):
+	proj_id=models.ForeignKey(NewProjects)
+	image_name = models.ImageField(upload_to='NewProjects_images', verbose_name='Image',)
+
+
+class Luxury(models.Model):
+	lux_id=models.IntegerField()
+	lux_name=models.CharField(max_length=255)
+	area=models.FloatField()
+	price=models.FloatField()
+	Description=models.TextField()
+	address=models.TextField(default="Maadi")
+	longtiude=models.FloatField()
+	latitude=models.FloatField()
+
+class LuxuryImage (models.Model):
+	lux_id=models.ForeignKey(Luxury)
+	image_name = models.ImageField(upload_to='Luxury_images', verbose_name='Image',)
+
+
