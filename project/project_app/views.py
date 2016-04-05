@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 # Create your views here.
 from django.contrib import admin
@@ -8,7 +7,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from models import *
 from forms import *
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import *
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -20,14 +19,27 @@ from django.forms.formsets import formset_factory
 from django import forms
 from django.forms import modelformset_factory
 from django.shortcuts import redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render
 
 
 
 def index(request):
-	#request=__getitem__("user_session")
-	#if  request.user.is_authenticated():
-    property_data = Property.objects.filter().prefetch_related('img_pro')
-    return render(request,'home.html',{'property_data':property_data })
+        property_data = Property.objects.filter().prefetch_related('img_pro')
+    
+        paginator = Paginator(property_data, 10) # Show 25 contacts per page
+        page = request.GET.get('page')
+        try:
+            contacts = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            contacts = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            contacts = paginator.page(paginator.num_pages)
+
+        return render(request, 'home.html', {'contacts': contacts})
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -73,12 +85,14 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
     return render(request,'register.html',{'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
-#	return render(request,'register.html',{'msg':"success"})	
+#	return render(request,'register.html',{'msg':"success"})
+@login_required
 def add_property(request):
-    if "active" in request.session and request.session['active']==1:
+    if request.user.is_authenticated():
+    # if "active" in request.session and request.session['active']==1:
         ImageFormSet = modelformset_factory(PropertyImage,form=ImageForm, extra=3)
         if request.method == 'POST':
-            obj = Users.objects.filter(id=request.session['user_id'])[0]
+            obj = User.objects.filter(id=request.user.id)[0]
             objcategory = Categories.objects.filter(id=request.POST['category'])[0]
             objCity = City.objects.filter(id=request.POST['city'])[0]
             objsec = Section.objects.filter(id=request.POST['section'])[0]
@@ -118,15 +132,20 @@ def add_property(request):
 
     msg ="removed success "
     return render(request,'result_remove.html',{'msg':msg })
+@login_required
 def delete_property(request,property_id):
-    u = Property.objects.get(pk=property_id).delete();
-    msg ="removed success \n "
-    return render(request,'result_remove_image.html',{'msg':msg })
-
+    if request.user.is_authenticated():
+        # user = get_object_or_404(Property, user_id=request.user.id)
+        u = Property.objects.get(pk=property_id).delete();
+        msg ="removed success \n "
+        return render(request,'result_remove_image.html',{'msg':msg })
+    else:
+        return HttpResponse("please login required.")
+@login_required
 def sendMessage(request):
-    if "active" in request.session and request.session['active']==1:
+    if request.user.is_authenticated():
         if request.method == 'POST':
-            u_id = Users.objects.filter(id=request.session['user_id'])[0]
+            u_id = User.objects.filter(id=request.user.id)[0]
             pro_id = Property.objects.filter(pk=request.POST['pro_id'])[0]
             msg =  request.POST['comment']
             msg_form = msgFormView(request.POST)
@@ -136,16 +155,16 @@ def sendMessage(request):
                 savedata.pro_id = pro_id
                 savedata.comment = msg
                 ret=savedata.save()
-                return HttpResponse('Message Saved Successffully')
+                return render(request,'result_remove.html',{'msg':'Message Saved Successffully' })
         else :
-            return HttpResponse('No Post Found')
+            return HttpResponse('No Post Found <a href="/index/">Back</a>')
     else :
         return HttpResponse('You Are Not Loged In Please Login From <a href="/login/">Here</a>')
 
-
+@login_required
 def viewNotice(request):
-    if "active" in request.session and request.session['active']==1:
-        obj = Users.objects.filter(id=request.session['user_id'])[0]
+    if request.user.is_authenticated():
+        obj = User.objects.filter(id=request.user.id)[0]
         property_data = Property.objects.filter(uid=obj)
         comment_data = Comments.objects.filter()
         return render(request,'viewmyNotice.html',{'property_data':property_data , 'comment_data' : comment_data }) 
@@ -154,11 +173,14 @@ def viewNotice(request):
         return HttpResponse('You Are Not Loged In Please Login From <a href="/login/">Here</a>')
 
 
-
+@login_required
 def deleteMessage(request,comment_id):
-    u = Comments.objects.get(pk=comment_id).delete();
-    msg ="removed success "
-    return HttpResponse(msg)
+    if request.user.is_authenticated():
+        u = Comments.objects.get(pk=comment_id).delete();
+        msg ="removed success "
+        return render(request,'result_remove.html',{'msg':'Message Deleted Successffully' })
+    else :
+        return HttpResponse('You Are Not Loged In Please Login From <a href="/login/">Here</a>')    
 
 
 
@@ -167,23 +189,28 @@ def property(request,property_id):
     
         property_data = Property.objects.get(pk=property_id)
         property_data_image = PropertyImage.objects.filter(pro_id=property_data)
+        property_comments = Comments.objects.filter(pro_id=property_data)
+
+        # property_comments = Comments.objects.filter(pro_id=property_data).prefetch_related('user_pro')
         msgForm = msgFormView()
-        return render(request,'viewSingleProperity.html',{'property':property_data ,'images':property_data_image ,'form' : msgForm  })
+        return render(request,'viewSingleProperity.html',{'property':property_data ,'images':property_data_image ,'form' : msgForm  ,'property_comments':property_comments})
         #subproperty_data = PropertyImage.objects.get(property_data)
         #return render(request,'viewSingleProperity.html',{'property':property_data , 'subproperty' : subproperty_data})    
+@login_required
 def image_delete(request,img_id):
     c= PropertyImage.objects.get(pk=img_id)
     u = PropertyImage.objects.get(pk=img_id).delete();
     msg ="removed success "
     return render(request,'result_remove.html',{'msg':msg })
-
+@login_required
 def edit_property(request,property_id):
+
     property_form = AddPropertyForm()
     # image_list = Property.images.all()
     pro = Property.objects.get(pk=property_id)
     image_list = PropertyImage.objects.filter(pro_id=pro)
     if request.method == 'POST':
-        obj = Users.objects.filter(id=request.session['user_id'])[0]
+        obj = User.objects.filter(id=request.user.id)[0]
         objcategory = Categories.objects.filter(id=request.POST['category'])[0]
         objCity = City.objects.filter(id=request.POST['city'])[0]
         objsec = Section.objects.filter(id=request.POST['section'])[0]
@@ -206,7 +233,7 @@ def edit_property(request,property_id):
     else:
         mydata = Property.objects.get(id=property_id)
         property_form = AddPropertyForm(instance=mydata)
-    return render(request,'edit_property.html',{'property_form':property_form ,'image_list':image_list,'property_id':property_id})
+    return render(request,'edit_property.html',{'property_form':property_form ,'image_list':image_list,'property_id':property_id,'lang':pro.longtiude,'lat':pro.Latitude})
 
 def getcity(request):
     city_l = City.objects.filter(coun_id=request.GET['id']).order_by('id') 
@@ -218,7 +245,7 @@ def getcity(request):
 def mypoints(request):
 	return render(request,'mypoints.html',{'msg':"success"})	
 def my_properties(request):
-    obj = Users.objects.filter(id=request.session['user_id'])[0]
+    obj = User.objects.filter(id=request.user.id)[0]
     property_data = Property.objects.filter(uid=obj)
     return render(request,'my_properties.html',{'property_data':property_data})	
 def my_notifiers(request):
@@ -242,21 +269,56 @@ def search(request):
             return render(request,'search.html',{'form':form} )
 
         
-
+# Mina Amir kekeke
 def newprojects(request):
     projs=NewProjects.objects.filter()
-    return render(request,'newprojects.html',{'projects':projs})
+
+
+    paginator = Paginator(projs, 1) # Show 25 contacts per page
+    page = request.GET.get('page')
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        contacts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request, 'newprojects.html', {'contacts': contacts}) 
+
+
+    #return render(request,'newprojects.html',{'projects':projs})
 
 
 def luxury(request):
     luxs=Luxury.objects.filter()
-    return render(request,'luxury.html',{'luxury':luxs})
+    paginator = Paginator(luxs, 1) # Show 25 contacts per page
+    page = request.GET.get('page')
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        contacts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request, 'luxury.html', {'contacts': contacts}) 
+    #return render(request,'luxury.html',{'luxury':luxs})
 
 def viewSingleProject(request ,pro_id):
-    project_data = NewProjects.objects.get(pk=pro_id)
+    project_data = NewProjects.objects.get(id=pro_id)
     project_data_image = NewProjectsImage.objects.filter(proj_id=project_data)
     project_data_unit = Units.objects.filter(project_id=project_data)
-    return render(request,'viewSingleProject.html',{'project':property_data ,'images':project_data_image ,'units' : project_data_unit})
+    return render(request,'viewSingleProject.html',{'projects':project_data ,'images':project_data_image ,'units' : project_data_unit})
+
+
+def luxury_details(request ,pro_id):
+    project_data = Luxury.objects.get(id=pro_id)
+    project_data_image = LuxuryImage.objects.filter(lux_id=project_data)
+    
+    return render(request,'luxer_details.html',{'projects':project_data ,'images':project_data_image })
 
 
 @login_required

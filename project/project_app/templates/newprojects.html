@@ -5,10 +5,14 @@
 
 
 
+
+
+
+<div class="row">
 	<div class="col-sm-12  tit">
 		<div class="content-display">
 		
-			{%for proj in projects %}
+			{%for proj in contacts %}
 				    <div class="col-md-4 proj">
 				        <img src="{% static 'images/d.jpg' %}" class="img-responsive img-rounded" alt=""/>
 				        <h3><a href="">{{proj.pro_name}}</a></h3>
@@ -16,7 +20,7 @@
 				        	{{proj.Address}}
 				        	<!--{{proj.unit_id.minPrice}}-->
 				        </p>
-				        <a href="/en/projects/kenz-compound" target="_blank" class="btn btn-primary pull-right">Details</a>
+				        <a href="/viewSingleProject/{{proj.id}}" target="_blank" class="btn btn-primary pull-right">Details</a>
 				        <p class="clearfix"></p>
 				    </div>
 				    {% empty %}
@@ -26,6 +30,32 @@
 		</div>
 
 	</div>
+
+
+</div>
+<div class="row" style="color:#FFF">
+    <div class="pagination">
+        <span class="step-links">
+            {% if contacts.has_previous %}
+                <a style="color:#FFF" href="?page={{ contacts.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+            </span>
+
+            {% if contacts.has_next %}
+                <a style="color:#FFF" href="?page={{ contacts.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+
+
+
+
+
+
 </div>
 
 {% include "footer.html" %}  

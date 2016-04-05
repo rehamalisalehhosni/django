@@ -1,7 +1,7 @@
 {% load staticfiles %}                                                                      
 {% include "header.html" %}    
 <div class="content_dispaly">
-    <h3 class="tit"><span class="glyphicon glyphicon-circle-arrow-right "></span>add property</h3>
+    <h3 class="tit"><span class="glyphicon glyphicon-circle-arrow-right "></span>Edit  property</h3>
         <form id="property_form" class="form col-md-8" method="post" action="/edit_property/{{ property_id }}/"  enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -62,7 +62,7 @@
       function initAutocomplete() {
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: {{lat}}, lng: {{lang}}},
-          zoom: 13,
+          zoom: 7,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
@@ -78,8 +78,8 @@
 		var lng0 = map.getBounds().getNorthEast().lng();
 		var lat1 = map.getBounds().getSouthWest().lat();
 		var lng1 = map.getBounds().getSouthWest().lng();
- 		$('#longtiude').val(lng0);
- 		$('#Latitude').val(lat0);
+ 		$('#id_longtiude').val(lng0);
+ 		$('#id_Latitude').val(lat0);
 /*		 if(lat0!=null&&lng0!=null){
 		 }else{
  			$('#longtiude').val=lng1;

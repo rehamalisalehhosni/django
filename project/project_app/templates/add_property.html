@@ -27,6 +27,8 @@
  <br/>
   <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div id="map"></div>
+
+
 <br/>
             <input type="submit" value="Add" class="btn btn-primary"  />
         </form>
@@ -55,9 +57,10 @@
       // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
+
       function initAutocomplete() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: {{lat}}, lng: {{lang}} },
+          center: {lat: -33.8688, lng: 151.2195},
           zoom: 13,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
@@ -70,18 +73,19 @@
         // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function() {
           searchBox.setBounds(map.getBounds());
-		var lat0 = map.getBounds().getNorthEast().lat();
-		var lng0 = map.getBounds().getNorthEast().lng();
-		var lat1 = map.getBounds().getSouthWest().lat();
-		var lng1 = map.getBounds().getSouthWest().lng();
- 		$('#longtiude').val(lng0);
- 		$('#Latitude').val(lat0);
-/*		 if(lat0!=null&&lng0!=null){
-		 }else{
- 			$('#longtiude').val=lng1;
- 			$('#Latitude').val=lat1;
-		 }
-*/          console.log(lat0,lng0);
+        var lat0 = map.getBounds().getNorthEast().lat();
+        var lng0 = map.getBounds().getNorthEast().lng();
+        var lat1 = map.getBounds().getSouthWest().lat();
+        var lng1 = map.getBounds().getSouthWest().lng();
+        $('#id_longtiude').val(lng0);
+        $('#id_Latitude').val(lat0);
+/*        $('#longtiude').val=lng0;
+      $('#Latitude').val=lat0;
+*/        console.log(lng0+lat0);
+     /*if(lat0!=null&&lng0!=null){
+     }else{
+     }*/
+          console.log(lat0,lng0);
         });
 
         var markers = [];
@@ -134,7 +138,5 @@
       }
 
 </script>		
-
-
 
 {% include "footer.html" %}    

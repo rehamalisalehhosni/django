@@ -45,7 +45,7 @@ class Section (models.Model):
 
 class Property (models.Model):
 	prop_name=models.CharField(max_length=255)
-	uid=models.ForeignKey(Users);
+	uid=models.ForeignKey(User);
 	cat_id=models.ForeignKey(Categories);
 	country_id=models.ForeignKey(Country ,default=1);
 	city_id=models.ForeignKey(City);
@@ -58,8 +58,8 @@ class Property (models.Model):
 	price=models.FloatField()
 	preview=models.TextField()
 	details=models.TextField()
-	longtiude=models.FloatField()
-	Latitude=models.FloatField()
+	longtiude=models.TextField()
+	Latitude=models.TextField()
 	def __unicode__(self):
 		return self.uid
 
@@ -68,12 +68,12 @@ class PropertyImage (models.Model):
 	image_name = models.ImageField(upload_to='property_images', verbose_name='Image',)
 
 class Comments (models.Model):
-	coun_id=models.ForeignKey(Users)
+	coun_id=models.ForeignKey(User, related_name = "user_pro")
 	pro_id=models.ForeignKey(Property)
 	comment=models.TextField()
 	#rec_id=models.ForeignKey(Users ,default=1)
 
-
+#minaaaaaaaaaaaaaaaaaa#
 
 class NewProjects(models.Model):
 	pro_id=models.IntegerField()
@@ -86,6 +86,8 @@ class NewProjects(models.Model):
 	OwnerCompany=models.TextField()
 	longtiude=models.FloatField()
 	latitude=models.FloatField()
+	def __unicode__(self):
+		return self.pro_name
 
 class Units(models.Model):
 	unit_id=models.IntegerField()
@@ -95,11 +97,14 @@ class Units(models.Model):
 	max_area=models.FloatField()
 	minPrice=models.FloatField()
 	maxPrice=models.FloatField()
+	def __unicode__(self):
+		return self.unit_name
 
 class NewProjectsImage (models.Model):
 	proj_id=models.ForeignKey(NewProjects)
 	image_name = models.ImageField(upload_to='NewProjects_images', verbose_name='Image',)
-
+	# def __unicode__(self):
+	# 	return self.image_name
 
 class Luxury(models.Model):
 	lux_id=models.IntegerField()
@@ -110,9 +115,11 @@ class Luxury(models.Model):
 	address=models.TextField(default="Maadi")
 	longtiude=models.FloatField()
 	latitude=models.FloatField()
+	def __unicode__(self):
+		return self.lux_name
 
 class LuxuryImage (models.Model):
 	lux_id=models.ForeignKey(Luxury)
 	image_name = models.ImageField(upload_to='Luxury_images', verbose_name='Image',)
 
-
+#minaaaaaaaaaaaaaaaaaaaa#

@@ -68,7 +68,7 @@ class SearchForm(forms.ModelForm):
     country = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'cat_id','onchange':'getCity()'}))
     city = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'city_id'}))
     section = forms.ChoiceField(choices = [],widget=forms.Select(attrs={'class':'form-control','id':'sec_id'}))
-    MinRange = forms.ChoiceField(choices = [(1000, 1000) ,(1500, 1500),(2000, 2000) ,(2500, 2500),(3000, 3000) ,(3500, 3500),(100000, 100000) ,(150000, 150000),(200000, 200000) ,(250000, 250000),(300000, 300000) ,(350000, 350000)],widget=forms.Select(attrs={'class':'form-control'}))
+    MinRange = forms.ChoiceField(choices = [(100, 100) ,(1000, 1000) ,(1500, 1500),(2000, 2000) ,(2500, 2500),(3000, 3000) ,(3500, 3500),(100000, 100000) ,(150000, 150000),(200000, 200000) ,(250000, 250000),(300000, 300000) ,(350000, 350000)],widget=forms.Select(attrs={'class':'form-control'}))
     MaxRange = forms.ChoiceField(choices = [(1000, 1000) ,(1500, 1500),(2000, 2000) ,(2500, 2500),(3000, 3000) ,(3500, 3500) ,(100000, 100000) ,(150000, 150000),(200000, 200000) ,(250000, 250000),(300000, 300000) ,(350000, 350000)],widget=forms.Select(attrs={'class':'form-control'}))
     def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)

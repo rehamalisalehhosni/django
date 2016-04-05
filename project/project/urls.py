@@ -22,6 +22,7 @@ from django.conf.urls import include
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index/', views.index),
+    url(r'^$', views.index),
     url(r'^login/', views.user_login),
     url(r'^register/',views.register),
     url(r'^add_property/', views.add_property),
@@ -30,12 +31,14 @@ urlpatterns = [
     url(r'^properties/(\d{1,4})/$', views.property),
     url(r'^delete_property/(\d{1,4})/$', views.delete_property),
     url(r'^edit_property/(\d{1,4})/$', views.edit_property),
+    url(r'^image_delete/(\d{1,4})/$', views.image_delete),
     url(r'^my_notifiers/', views.my_notifiers),
     url(r'^setting/', views.setting),
     url(r'^search/', views.search),
     url(r'^luxury/', views.luxury),
     url(r'^newprojects/', views.newprojects),
     url(r'^viewSingleProject/(\d{1,4})/$', views.viewSingleProject),
+    url(r'^luxury_details/(\d{1,4})/$', views.luxury_details),
     url(r'^logout/', views.user_logout),
     url(r'^getcity/', views.getcity),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
@@ -46,6 +49,5 @@ urlpatterns = [
 
 
 ]
-
 
 
